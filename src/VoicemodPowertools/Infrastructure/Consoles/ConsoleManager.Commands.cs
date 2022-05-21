@@ -1,6 +1,7 @@
 ﻿using ConsoleImplementation;
 using VoicemodPowertools.Services.Application.ConsoleApplications.ApplicationConsole;
 using VoicemodPowertools.Services.Application.ConsoleApplications.GitlabConsole;
+using VoicemodPowertools.Services.Application.ConsoleApplications.InstallationConsole;
 
 namespace VoicemodPowertools.Infrastructure.Consoles;
 
@@ -29,6 +30,23 @@ public partial class ConsoleManager : ConsoleManagerBase
                     {
                         Command = "logout", Application = typeof(IGitlabLogout), RequireAuth = true,
                         Description = "Revoke tokens from gitlab"
+                    },
+                }
+            },
+            new()
+            {
+                Name = "Installation",
+                Commands = new()
+                {
+                    new ()
+                    {
+                        Command = "is-installed", Application = typeof(ICheckIfVoicemodIsInstalled),
+                        Description = "Check if voicemod is currently installed"
+                    },
+                    new ()
+                    {
+                        Command = "uninstall", Application = typeof(IUnistallVoicemod),
+                        Description = "Trigger setup for Voicemod Desktop uninstallation"
                     },
                 }
             },

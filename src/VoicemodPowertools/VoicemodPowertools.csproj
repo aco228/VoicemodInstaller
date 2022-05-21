@@ -19,4 +19,8 @@
       <ProjectReference Include="..\ConsoleImplementation\ConsoleImplementation.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Domain\Application" />
+    </ItemGroup>
+
 </Project>

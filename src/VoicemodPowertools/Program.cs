@@ -1,4 +1,5 @@
 using VoicemodPowertools.Application;
+using VoicemodPowertools.Domain.Installation;
 using VoicemodPowertools.Domain.Storage.Entries;
 using VoicemodPowertools.Infrastructure.Gitlab;
 using VoicemodPowertools.Infrastructure.Http;
@@ -32,6 +33,7 @@ static class Program
         services.AddTransient<IRequestClient, RequestClient>();
         services.AddSingleton<IStorageHandler, StorageHandler>();
         
+        services.RegisterInstallationServices();
         services.RegisterGitlabServices();
         services.RegisterApplicationServices();
     }

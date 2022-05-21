@@ -1,8 +1,11 @@
 ﻿using VoicemodPowertools.Application.ConsoleApplications.ApplicationConsole;
 using VoicemodPowertools.Application.ConsoleApplications.GitlabConsole;
+using VoicemodPowertools.Application.ConsoleApplications.InstallationConsole;
+using VoicemodPowertools.Infrastructure.Installation;
 using VoicemodPowertools.Services.Application;
 using VoicemodPowertools.Services.Application.ConsoleApplications.ApplicationConsole;
 using VoicemodPowertools.Services.Application.ConsoleApplications.GitlabConsole;
+using VoicemodPowertools.Services.Application.ConsoleApplications.InstallationConsole;
 using VoicemodPowertools.Services.Gitlab;
 using IGitlabLogin = VoicemodPowertools.Services.Application.IGitlabLogin;
 
@@ -21,5 +24,7 @@ public static class ApplicationExtensions
         services.AddTransient<IGitlabRedirectToLogin, GitlabRedirectToLogin>();
         services.AddTransient<IGitlabLogout, GitlabLogout>();
         services.AddTransient<IGetCurrentGitlabUser, GetCurrentGetCurrentGitlabUser>();
+        services.AddTransient<ICheckIfVoicemodIsInstalled, CheckIfVoicemodIsInstalled>();
+        services.AddTransient<IUnistallVoicemod, UnistallVoicemod>();
     }
 }
