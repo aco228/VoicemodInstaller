@@ -17,13 +17,12 @@ static class Program
 {
     public static void Main(string[] args)
     {
-        
-        
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         RegisterServices(builder.Services);
         var app = builder.Build();
+        InitializeServer(app);
 
         // if (CheckIfUserIsLoggedIn())
         // {
@@ -52,6 +51,23 @@ static class Program
         
         services.RegisterGitlabServices();
         services.RegisterApplicationServices();
+    }
+
+    private static void InitializeServer(WebApplication app)
+    {
+        var gitlabAuthorizationService = app.Services.GetService<IGitlabAuthorizationService>();
+        var openWebpageProcess = new ProcessStartInfo
+        {
+            FileName = gitlabAuthorizationService.GetRedirectUrl(),
+            UseShellExecute = true
+        };
+        Process.Start(openWebpageProcess);
+        
+        if (app.Environment.IsDevelopment()) { }
+        app.UseHttpsRedirection();
+        app.UseAuthorization();
+        app.MapControllers();
+        app.Run();
     }
 
     private static bool CheckIfUserIsLoggedIn(IServiceProvider serviceProvider)

@@ -26,10 +26,11 @@ public class GitlabAuthorizationService : IGitlabAuthorizationService
         var gitlabBaseUrl = _configuration.GetValue<string>("GitlabBaseUrl");
         var appId = _configuration.GetValue<string>("GitlabApplicationId");
         var scopes = "api";
+        var endpoint = _configuration.GetSection("Kestrel:Endpoints:Https").GetValue<string>("Url");
         var codeVerifier = Base64Encode("ks02i3jdikdo2k0dkfodf3m39rjfjsdk0wk349rj3jrhf");
         return gitlabBaseUrl + _configuration.GetValue<string>("GitlabRedirect")
             .Replace("[APP_ID]", appId)
-            .Replace("[REDIRECT_URI]", HttpUtility.UrlEncode("https://localhost:7206/GitlabCallback/"))
+            .Replace("[REDIRECT_URI]", HttpUtility.UrlEncode($"{endpoint}/GitlabCallback/"))
             .Replace("[STATE]", "state")
             .Replace("[REQUESTED_SCOPES]", scopes)
             .Replace("[CODE_CHALLENGE]", codeVerifier);
@@ -39,11 +40,12 @@ public class GitlabAuthorizationService : IGitlabAuthorizationService
     {
         var gitlabBaseUrl = _configuration.GetValue<string>("GitlabBaseUrl");
         var appId = _configuration.GetValue<string>("GitlabApplicationId");
+        var endpoint = _configuration.GetSection("Kestrel:Endpoints:Https").GetValue<string>("Url");
         var request = new GitlabTokenRequest
         {
             Code = receivedCode,
             ClientId = appId,
-            RedirectUrl = "https://localhost:7206/GitlabCallback/",
+            RedirectUrl = $"{endpoint}/GitlabCallback/",
             CodeVerifier = "ks02i3jdikdo2k0dkfodf3m39rjfjsdk0wk349rj3jrhf",
         };
 
@@ -55,12 +57,13 @@ public class GitlabAuthorizationService : IGitlabAuthorizationService
         var gitlabBaseUrl = _configuration.GetValue<string>("GitlabBaseUrl");
         var appId = _configuration.GetValue<string>("GitlabApplicationId");
         var secret = _configuration.GetValue<string>("GitlabApplicationSecret");
+        var endpoint = _configuration.GetSection("Kestrel:Endpoints:Https").GetValue<string>("Url");
         var request = new GitlabRefreshTokenRequest
         {
             ClientId = appId,
             ClientSecret = secret,
             RefreshToken = refreshToken,
-            RedirectUrl = "https://localhost:7206/GitlabCallback/",
+            RedirectUrl = $"{endpoint}/GitlabCallback/",
         };
         return _requestClient.Post<GitlabTokenResponse>($"{gitlabBaseUrl}oauth/token", request);
     }
