@@ -22,12 +22,12 @@ public partial class ConsoleManager : ConsoleManagerBase
                     },
                     new ()
                     {
-                        Command = "user", Application = typeof(IGetCurrentGitlabUser),
+                        Command = "user", Application = typeof(IGetCurrentGitlabUser), RequireAuth = true,
                         Description = "Get informations about currently logged in user"
                     },
                     new ()
                     {
-                        Command = "logout", Application = typeof(IGitlabLogout),
+                        Command = "logout", Application = typeof(IGitlabLogout), RequireAuth = true,
                         Description = "Revoke tokens from gitlab"
                     },
                 }
