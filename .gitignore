@@ -293,8 +293,5 @@ __pycache__/
 *.pubxml
 
 # Ignore console test application
-src/Likvido.ReleaseGuy.ConsoleTests/*
+*.rg
 
-
-# Ignore appsettings.Development.json
-src/Likvido.ReleaseGuy.Web/appsettings.Development.json
