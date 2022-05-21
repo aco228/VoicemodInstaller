@@ -1,10 +1,8 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using System.Web;
+﻿using System.Web;
 using Installer.Domain.Gitlab.Authorization;
 using Installer.Domain.Gitlab.Authorization.Models;
+using Installer.Infrastructure.Helpers;
 using Installer.Infrastructure.Http;
-using Microsoft.AspNetCore.Authentication;
 
 namespace Installer.Infrastructure.Gitlab.Authorization;
 
@@ -27,7 +25,7 @@ public class GitlabAuthorizationService : IGitlabAuthorizationService
         var appId = _configuration.GetValue<string>("GitlabApplicationId");
         var scopes = "api";
         var endpoint = _configuration.GetSection("Kestrel:Endpoints:Https").GetValue<string>("Url");
-        var codeVerifier = Base64Encode("ks02i3jdikdo2k0dkfodf3m39rjfjsdk0wk349rj3jrhf");
+        var codeVerifier = "ks02i3jdikdo2k0dkfodf3m39rjfjsdk0wk349rj3jrhf".Base64Encode();
         return gitlabBaseUrl + _configuration.GetValue<string>("GitlabRedirect")
             .Replace("[APP_ID]", appId)
             .Replace("[REDIRECT_URI]", HttpUtility.UrlEncode($"{endpoint}/GitlabCallback/"))
@@ -66,12 +64,5 @@ public class GitlabAuthorizationService : IGitlabAuthorizationService
             RedirectUrl = $"{endpoint}/GitlabCallback/",
         };
         return _requestClient.Post<GitlabTokenResponse>($"{gitlabBaseUrl}oauth/token", request);
-    }
-
-    private string Base64Encode(string input)
-    {
-        var crypt = new SHA256Managed();
-        var hash = crypt.ComputeHash(Encoding.UTF8.GetBytes(input));
-        return Base64UrlTextEncoder.Encode(hash);
     }
 }

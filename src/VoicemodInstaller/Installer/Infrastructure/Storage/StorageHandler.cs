@@ -39,13 +39,13 @@ public class StorageHandler : IStorageHandler
             return _storage;
         }
         
-        _storage = StorageHandlerExtensions.ReadFromBinaryFile<StorageData>(STORAGE_NAME);
+        _storage = StorageHandlerExtensions.ReadFile(STORAGE_NAME);
         return _storage;
     }
 
     private void Save(StorageData storageData)
     {
         _storage = storageData;
-        StorageHandlerExtensions.WriteToBinaryFile(STORAGE_NAME, _storage);
+        StorageHandlerExtensions.WriteFile(STORAGE_NAME, _storage);
     }
 }
