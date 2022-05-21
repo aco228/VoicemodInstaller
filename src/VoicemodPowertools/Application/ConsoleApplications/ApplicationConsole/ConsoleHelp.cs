@@ -13,6 +13,9 @@ public class ConsoleHelp : IConsoleHelp
             foreach (var command in group.Commands)
             {
                 Console.WriteLine($"{command.Command, 20} \t - {command.Description}");
+                if(command.DescriptionMultiline.Count > 0)
+                    foreach (var extraDescription in command.DescriptionMultiline)
+                        Console.WriteLine($"{"", 20} \t - {extraDescription}");
             }
             Console.WriteLine();
         }

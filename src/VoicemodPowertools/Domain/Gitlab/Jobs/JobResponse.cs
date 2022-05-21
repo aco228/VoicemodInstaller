@@ -22,6 +22,12 @@ public record JobResponse
     
     [JsonProperty("artifacts_file")]
     public JobArtifactResponse ArtifactsFile { get; set; }
+    
+    [JsonProperty("created_at")]
+    public DateTime Created { get; set; }
+    
+    [JsonProperty("finished_at")]
+    public DateTime Finished { get; set; }
 }
 
 public record JobArtifactResponse

@@ -4,5 +4,10 @@ namespace VoicemodPowertools.Services.Gitlab;
 
 public interface IGitlabJobService
 {
-    Task<JobResponse[]> GetProjectJobs(long projectId);
+    /// <summary>
+    /// https://docs.gitlab.com/ee/api/jobs.html#list-project-jobs
+    /// </summary>
+    Task<List<JobResponse>> GetProjectJobs(GitlabJobsRequest request);
+
+    IAsyncEnumerable<JobResponse> GetJobs(long projectId, int count = 1, bool onlyDevelop = false);
 }

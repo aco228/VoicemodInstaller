@@ -22,10 +22,12 @@ static class Program
         
         new Thread(() =>
         {
-            var consoleManager = new ConsoleManager(args, app.Services);
-            consoleManager.Run();
+            InitializeServer(app);
         }).Start();
-        InitializeServer(app);
+        
+        Thread.Sleep(250);
+        var consoleManager = new ConsoleManager(args, app.Services);
+        consoleManager.Run();
     }
     
     private static void RegisterServices(IServiceCollection services)

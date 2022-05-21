@@ -6,4 +6,5 @@ public interface IGitlabAuthorization
 {
     bool IsAuthorized();
     GitlabAuthorization? GetAuthorization();
+    void Save(GitlabAuthorization auth);
 }

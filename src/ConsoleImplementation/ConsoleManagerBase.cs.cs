@@ -6,7 +6,7 @@ public abstract class ConsoleManagerBase
     public List<ArgumentGroup> Groups { get; private set; } = new();
 
     protected abstract List<ArgumentGroup> GetGroupsAndCommands();
-    protected abstract void OnRun();
+    protected abstract Task OnRun();
     protected abstract Task OnCommand(ArgumentCommand command, string[] args);
 
     public void Run()

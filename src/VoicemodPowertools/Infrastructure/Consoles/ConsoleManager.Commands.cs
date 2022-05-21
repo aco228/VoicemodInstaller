@@ -48,6 +48,16 @@ public partial class ConsoleManager : ConsoleManagerBase
                         Command = "uninstall", Application = typeof(IUnistallVoicemod),
                         Description = "Trigger setup for Voicemod Desktop uninstallation"
                     },
+                    new()
+                    {
+                        Command = "versions", Application = typeof(IGitlabPrintVersions),
+                        Description = "Get all available versions for download from gitlab",
+                        DescriptionMultiline = new()
+                        {
+                            "Use `--count=[NUMBER]' for number of versions you want to print (default=5, maximum=50)",
+                            "Use `--develop=true' if you want to get only versions for develop (default=FALSE)",
+                        },
+                    }
                 }
             },
             new()

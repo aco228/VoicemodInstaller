@@ -1,5 +1,7 @@
-﻿using ConsoleImplementation;
+﻿using System.Runtime.CompilerServices;
+using ConsoleImplementation;
 using VoicemodPowertools.Domain.Storage.Entries;
+using VoicemodPowertools.Services.Application;
 using VoicemodPowertools.Services.Application.ConsoleApplications;
 using VoicemodPowertools.Services.Gitlab;
 using VoicemodPowertools.Services.Storage;
@@ -24,18 +26,22 @@ public partial class ConsoleManager : ConsoleManagerBase
         _instance = this;
     }
 
-    protected override void OnRun()
+    protected override async Task OnRun()
     {
         Console.Title = "Voicemod | Powertools";
         var storageHandler = _serviceProvider.GetService<IStorageHandler>();
         var storageData = storageHandler.GetCurrent();
         var gitlabAuth = storageData.Get<GitlabAuthorization>();
         if (gitlabAuth.IsValid())
-        {
+        {   
+            var refreshToken = _serviceProvider.GetService<IGitlabRefreshToken>();
+            await refreshToken.RefreshToken();
+            
             Console.WriteLine($"Authenticated as {gitlabAuth.Username}");
+            Console.WriteLine();
         }
 
-        ProcessCommand(_args);
+        await ProcessCommand(_args);
     }
 
     protected override async Task OnCommand(ArgumentCommand command, string[] args)
@@ -59,4 +65,5 @@ public partial class ConsoleManager : ConsoleManagerBase
 
         await service.Execute(args);
     }
+
 }

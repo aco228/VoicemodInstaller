@@ -61,6 +61,7 @@ public class GitlabAuthorizationService : IGitlabAuthorizationService
             ClientId = appId,
             ClientSecret = secret,
             RefreshToken = refreshToken,
+            GrantType = "refresh_token",
             RedirectUrl = $"{endpoint}/GitlabCallback/",
         };
         return _requestClient.Post<GitlabTokenResponse>($"{gitlabBaseUrl}oauth/token", request);

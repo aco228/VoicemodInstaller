@@ -23,4 +23,9 @@ public class GitlabAuthorizationProvider : IGitlabAuthorization
     {
         return _storageHandler.Get<GitlabAuthorization>();
     }
+
+    public void Save(GitlabAuthorization auth)
+    {
+        _storageHandler.Save(auth);
+    }
 }
