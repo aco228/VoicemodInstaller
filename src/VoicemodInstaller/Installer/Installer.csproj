@@ -5,6 +5,8 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+        <Company>Voicemod</Company>
+        <Product>Voicemod</Product>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,6 +16,10 @@
 
     <ItemGroup>
       <Folder Include="Infrastructure\Storage\Encryption" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ConsoleImplementation\ConsoleImplementation.csproj" />
     </ItemGroup>
 
 </Project>

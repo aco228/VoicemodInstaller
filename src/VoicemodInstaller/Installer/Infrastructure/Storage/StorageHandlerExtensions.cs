@@ -7,7 +7,7 @@ namespace Installer.Infrastructure.Storage;
 
 public static class StorageHandlerExtensions
 {
-    public static void WriteFile(string filePath, StorageData obj)
+    public static void WriteFile<T>(string filePath, T obj) where T : class
     {
         var formatter = new BinaryFormatter();
         using var stream = new MemoryStream();
@@ -23,7 +23,7 @@ public static class StorageHandlerExtensions
         WriteToBinaryFile(filePath, encFile);
     }
 
-    public static StorageData ReadFile(string filePath)
+    public static T ReadFile<T>(string filePath) where T : class
     {
         try
         {
@@ -31,11 +31,11 @@ public static class StorageHandlerExtensions
             if (!encFile.Sha.Equals(encFile.FileContent.Base64Encode()))
             {
                 Console.WriteLine($"Error reading {filePath}, enc");
-                return null;
+                return default;
             }
 
-            var bytes = Convert.FromBase64String(encFile.FileContent);
-            var content = FromByteArray<StorageData>(bytes);
+            var bytes = Convert.FromHexString(encFile.FileContent);
+            var content = FromByteArray<T>(bytes);
             return content;
         }
         catch (Exception ex)

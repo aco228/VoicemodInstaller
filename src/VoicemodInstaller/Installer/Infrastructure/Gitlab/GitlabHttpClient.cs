@@ -22,7 +22,7 @@ public class GitlabHttpClient : RequestClient, IGitlabHttpClient
     public void LoadToken()
     {
         var storage = _storageHandler.Get<GitlabAuthorization>();
-        if (storage == null)
+        if (!storage.IsTokenValid())
             return;
         
         AddAuthorization(storage.Token);

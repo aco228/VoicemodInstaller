@@ -1,4 +1,4 @@
-﻿namespace Installer.Application.GitlabRefreshTokenApp;
+﻿namespace Installer.Services.Application;
 
 public interface IGitlabRefreshToken
 {

@@ -65,4 +65,19 @@ public class GitlabAuthorizationService : IGitlabAuthorizationService
         };
         return _requestClient.Post<GitlabTokenResponse>($"{gitlabBaseUrl}oauth/token", request);
     }
+
+    public Task RevokeToken(string currentToken)
+    {
+        var gitlabBaseUrl = _configuration.GetValue<string>("GitlabBaseUrl");
+        var appId = _configuration.GetValue<string>("GitlabApplicationId");
+        var secret = _configuration.GetValue<string>("GitlabApplicationSecret");
+
+        var request = new GitlabRevokeRequest
+        {
+            ClientId = appId,
+            ClientSecret = secret,
+            Token = currentToken,
+        };
+        return _requestClient.Post($"{gitlabBaseUrl}oauth/revoke", request);
+    }
 }

@@ -1,7 +1,7 @@
-﻿using Installer.Domain.Gitlab.Models;
+﻿using Installer.Services.Application;
 using Installer.Services.Storage;
 
-namespace Installer.Application.GitlabRefreshTokenApp;
+namespace Installer.Application;
 
 public class GitlabRefreshToken : IGitlabRefreshToken
 {

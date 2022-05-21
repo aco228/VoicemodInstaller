@@ -7,12 +7,21 @@ public class StorageData : IStorageData
 {
     public Dictionary<string, object> Data { get; set; } = new();
 
-    public bool ContainsKey(string key)
-        => Data.ContainsKey(key);
+    public bool ContainsKey<T>() where T : StorageEntryBase
+        => Data.ContainsKey(nameof(T));
 
-    public T? GetIfExists<T>(string key) where T : class
-        => ContainsKey(key) ? Get<T>(key) : default(T);
+    public T? Get<T>() where T : StorageEntryBase
+        => ContainsKey<T>() ? GetFromData<T>() : default(T);
 
-    public T Get<T>(string key) where T : class
-        => Data[key] as T;
+    private T GetFromData<T>() where T : StorageEntryBase
+        => Data[nameof(T)] as T;
+
+    public void Add<T>(T entry) where T : StorageEntryBase
+    {
+        var key = nameof(T);
+        if (Data.ContainsKey(key))
+            Data[key] = entry;
+        else
+            Data.Add(key, entry);
+    }
 }

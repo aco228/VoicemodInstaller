@@ -4,6 +4,7 @@ using Installer.Domain.Gitlab.Authorization;
 using Installer.Domain.Gitlab.Jobs;
 using Installer.Domain.Storage;
 using Installer.Domain.Storage.Entries;
+using Installer.Infrastructure.Consoles;
 using Installer.Infrastructure.Gitlab;
 using Installer.Infrastructure.Gitlab.Authorization;
 using Installer.Infrastructure.Gitlab.Jobs;
@@ -22,26 +23,13 @@ static class Program
         builder.Services.AddEndpointsApiExplorer();
         RegisterServices(builder.Services);
         var app = builder.Build();
+        
+        new Thread(() =>
+        {
+            var consoleManager = new ConsoleManager(args, app.Services);
+            consoleManager.Run();
+        }).Start();
         InitializeServer(app);
-
-        // if (CheckIfUserIsLoggedIn())
-        // {
-        //     var gitlabAuthorizationService = app.Services.GetService<IGitlabAuthorizationService>();
-        //     var openWebpageProcess = new ProcessStartInfo
-        //     {
-        //         FileName = gitlabAuthorizationService.GetRedirectUrl(),
-        //         UseShellExecute = true
-        //     };
-        //     Process.Start(openWebpageProcess);
-        //
-        //     if (app.Environment.IsDevelopment()) { }
-        //     app.UseHttpsRedirection();
-        //     app.UseAuthorization();
-        //     app.MapControllers();
-        //     app.Run();   
-        // }
-
-        Console.ReadKey();
     }
     
     private static void RegisterServices(IServiceCollection services)
@@ -55,17 +43,9 @@ static class Program
 
     private static void InitializeServer(WebApplication app)
     {
-        var gitlabAuthorizationService = app.Services.GetService<IGitlabAuthorizationService>();
-        var openWebpageProcess = new ProcessStartInfo
-        {
-            FileName = gitlabAuthorizationService.GetRedirectUrl(),
-            UseShellExecute = true
-        };
-        Process.Start(openWebpageProcess);
-        
         if (app.Environment.IsDevelopment()) { }
         app.UseHttpsRedirection();
-        app.UseAuthorization();
+        //app.UseAuthorization();
         app.MapControllers();
         app.Run();
     }

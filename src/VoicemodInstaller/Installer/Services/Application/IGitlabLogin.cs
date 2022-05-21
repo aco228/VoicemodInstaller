@@ -1,4 +1,4 @@
-﻿namespace Installer.Application.GitlabLoginApp;
+﻿namespace Installer.Services.Application;
 
 public interface IGitlabLogin
 {

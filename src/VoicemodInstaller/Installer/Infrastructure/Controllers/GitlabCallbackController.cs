@@ -1,4 +1,4 @@
-﻿using Installer.Application.GitlabLoginApp;
+﻿using Installer.Services.Application;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Installer.Infrastructure.Controllers;

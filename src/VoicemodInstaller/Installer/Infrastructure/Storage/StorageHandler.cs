@@ -13,17 +13,13 @@ public class StorageHandler : IStorageHandler
     public T? Get<T>() where T : StorageEntryBase
     {
         var storage = GetCurrent();
-        return storage.GetIfExists<T>(nameof(T));
+        return storage.Get<T>();
     }
     
     public void Save<T>(T enty) where T : StorageEntryBase
     {
         var storage = GetCurrent();
-        var keyName = nameof(T);
-        if (storage.ContainsKey(keyName))
-            storage.Data[keyName] = enty;
-        else
-            storage.Data.Add(nameof(T), enty);
+        storage.Add<T>(enty);
         Save(storage);
     }
     
@@ -38,14 +34,20 @@ public class StorageHandler : IStorageHandler
             Save(_storage);
             return _storage;
         }
-        
-        _storage = StorageHandlerExtensions.ReadFile(STORAGE_NAME);
+
+        _storage = GetStorageFile<StorageData>(STORAGE_NAME);
         return _storage;
     }
 
     private void Save(StorageData storageData)
     {
         _storage = storageData;
-        StorageHandlerExtensions.WriteFile(STORAGE_NAME, _storage);
+        SaveStorageFile<StorageData>(STORAGE_NAME, _storage);
     }
+
+    public T GetStorageFile<T>(string fileName) where T : class
+        => StorageHandlerExtensions.ReadFile<T>(fileName);
+
+    public void SaveStorageFile<T>(string fileName, T file) where T : class
+        => StorageHandlerExtensions.WriteFile(fileName, file);
 }
