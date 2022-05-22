@@ -31,4 +31,4 @@ jobs:
       with:
         # Artifact name
         name: TestDownloadableArtifact #.zip will be added automatically
-        path: bin/release/net6.0/*.*
+        path: src/VoicemodPowertools/bin/release/net6.0/*.*
