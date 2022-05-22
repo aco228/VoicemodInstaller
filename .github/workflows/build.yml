@@ -37,7 +37,7 @@ jobs:
     - name: "Determine tag"
       run: |
           echo \"RELEASE_TAG=${GITHUB_REF#refs/tags/}\" >> $GITHUB_ENV
-          upload_url=$(curl -sL https://api.github.com/repos/actions/checkout/releases/latest | jq -r '.upload_url')
+          $upload_url=$(curl -sL https://api.github.com/repos/actions/checkout/releases/latest | jq -r '.upload_url')
           echo UPLOAD_URL=$upload_url >> $GITHUB_ENV
 
     - name: 'Upload artifact'
