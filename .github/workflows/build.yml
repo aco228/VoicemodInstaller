@@ -19,10 +19,12 @@ jobs:
         dotnet-version: 6.0.x
     
     - name: Restore dependencies
-      run: ./src/dotnet restore
+      working-directory: src/VoicemodPowertools
+      run: dotnet restore
     
     - name: Build
-      run: ./src/dotnet build -c release --no-restore
+      working-directory: src/VoicemodPowertools
+      run: dotnet build -c release --no-restore
       
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.2
