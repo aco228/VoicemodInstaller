@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.IO.Compression;
 using System.Net;
 using VoicemodPowertools.Domain.Storage.Entries;
@@ -12,13 +13,14 @@ public class DownloadManager : IDownloadManager
     private readonly string _downloadDirectory;
     private readonly string _fileName;
     private bool _result = false;
-    private bool _unzip = false;
+    private readonly bool _unzip = false;
+    private readonly bool _openFolderOnDownload = false;
     private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(0);
 
     private string FileName => $"{_fileName}.zip";
     private string DownloadPath => Path.Combine(_downloadDirectory, FileName);
     
-    public DownloadManager(string url, string fileName, string downloadDirectory, bool unzip = false)
+    public DownloadManager(string url, string fileName, string downloadDirectory, bool unzip = false, bool openOnDownload = false)
     {
         if (string.IsNullOrEmpty(url)) throw new ArgumentException("Url is empty");
         if (string.IsNullOrEmpty(fileName)) throw new ArgumentException("FileName is empty");
@@ -27,6 +29,7 @@ public class DownloadManager : IDownloadManager
         _url = url;
         _unzip = unzip;
         _fileName = fileName;
+        _openFolderOnDownload = openOnDownload;
         _downloadDirectory = downloadDirectory;
     }
     
@@ -59,7 +62,13 @@ public class DownloadManager : IDownloadManager
             Console.WriteLine(@"Downloading file:");
             client.DownloadFileAsync(ur, DownloadPath);
             _semaphore.Wait(timeoutInMinutes * 60 * 1000);
-            return _result && (_unzip ? Directory.Exists(Path.Combine((new DirectoryInfo(_downloadDirectory)).FullName, _fileName)) : File.Exists(DownloadPath));
+
+            var downloadFolderPath = (new DirectoryInfo(_downloadDirectory)).FullName;
+            
+            if (_openFolderOnDownload)
+                Process.Start("explorer.exe", downloadFolderPath);
+            
+            return _result && (_unzip ? Directory.Exists(Path.Combine(downloadFolderPath, _fileName)) : File.Exists(DownloadPath));
         }
         catch (Exception e)
         {

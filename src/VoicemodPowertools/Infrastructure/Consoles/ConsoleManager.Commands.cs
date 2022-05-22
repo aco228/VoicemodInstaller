@@ -55,6 +55,7 @@ public partial class ConsoleManager : ConsoleManagerBase
                         Description = "Get all available versions for download from gitlab",
                         DescriptionMultiline = new()
                         {
+                            "Will look only for jobs with state `3.QA Integration`",
                             "Use `--count=[NUMBER]' for number of versions you want to print (default=5, maximum=50)",
                             "Use `--develop=true' if you want to get only versions for develop (default=FALSE)",
                         },
@@ -65,8 +66,10 @@ public partial class ConsoleManager : ConsoleManagerBase
                         Description = "Download job archive",
                         DescriptionMultiline = new()
                         {
+                            "Will look only for jobs with state `3.QA Integration`",
                             "[REQUIRED] As parameter send job id! You can get job id from `versions` command",
                             "Use `--unzip` if you want to unzip file when downloaded (FALSE by default)",
+                            "Use `--open` if you want to open folder where file is downloaded"
                         },
                     },
                     new()
@@ -75,8 +78,10 @@ public partial class ConsoleManager : ConsoleManagerBase
                         Description = "Download latest version from gitlab",
                         DescriptionMultiline = new()
                         {
+                            "Will look only for jobs with state `3.QA Integration`",
                             "Use `--develop` if you only want to download one from develop branch (FALSE by default)`",
                             "Use `--unzip` if you want to unzip file when downloaded (FALSE by default)",
+                            "Use `--open` if you want to open folder where file is downloaded"
                         },
                     },
                 }
@@ -88,8 +93,13 @@ public partial class ConsoleManager : ConsoleManagerBase
                 {
                     new ()
                     {
-                      Command  = "close", Application = typeof(ICloseApplication),
-                      Description = "Close application"
+                        Command  = "close", Application = typeof(ICloseApplication),
+                        Description = "Close application"
+                    },
+                    new ()
+                    {
+                        Command  = "clear", Application = typeof(IClearDownloadFolder),
+                        Description = "Clear downloads folder and all of its contents"
                     },
                     new ()
                     {

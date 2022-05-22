@@ -29,5 +29,6 @@ public static class ApplicationExtensions
         services.AddTransient<IGitlabPrintVersions, GitlabPrintVersions>();
         services.AddTransient<IDownloadJobArchive, DownloadJobArchive>();
         services.AddTransient<IDownloadLatestVersion, DownloadLatestVersion>();
+        services.AddTransient<IClearDownloadFolder, ClearDownloadFolder>();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Humanizer;
+using VoicemodPowertools.Domain;
 using VoicemodPowertools.Domain.Gitlab.Jobs;
 using VoicemodPowertools.Infrastructure.Consoles;
 using VoicemodPowertools.Infrastructure.Installation;
@@ -27,6 +28,7 @@ public class DownloadLatestVersion : IDownloadLatestVersion
     {
         var unzip = args.GetValue("unzip", false);
         var develop = args.GetValue("develop", false);
+        var open = args.GetValue("open", false);
         var projectId = _configuration.GetValue<long>("GitlabVoicemodDesktopPID");
         var gitlabBaseUrl = _configuration.GetValue<string>("GitlabApiBaseUrl");
 
@@ -58,7 +60,13 @@ public class DownloadLatestVersion : IDownloadLatestVersion
             }
             
             var url = $"{gitlabBaseUrl}projects/{projectId}/jobs/{job.Id}/artifacts";
-            var downloadManager = new DownloadManager(url, job.Id.ToString(), "Downloads", unzip);
+            var downloadManager = new DownloadManager(
+                url, 
+                job.Id.ToString(), 
+                ProgramConstants.DownloadsFolderName, 
+                unzip,
+                open);
+            
             if (!downloadManager.StartDownload(_authorization.GetAuthorization()))
             {
                 Console.WriteLine("Not downloaded for some reason :(");

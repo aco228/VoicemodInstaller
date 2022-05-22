@@ -1,4 +1,5 @@
-﻿using VoicemodPowertools.Infrastructure.Consoles;
+﻿using VoicemodPowertools.Domain;
+using VoicemodPowertools.Infrastructure.Consoles;
 using VoicemodPowertools.Infrastructure.Installation;
 using VoicemodPowertools.Services.Application.ConsoleApplications.InstallationConsole;
 using VoicemodPowertools.Services.Gitlab;
@@ -36,6 +37,7 @@ public class DownloadJobArchive : IDownloadJobArchive
         }
 
         var unzip = args.GetValue("unzip", false);
+        var open = args.GetValue("open", false);
         var projectId = _configuration.GetValue<long>("GitlabVoicemodDesktopPID");
         var gitlabBaseUrl = _configuration.GetValue<string>("GitlabApiBaseUrl");
 
@@ -52,8 +54,9 @@ public class DownloadJobArchive : IDownloadJobArchive
             var downloadManager = new DownloadManager(
                 url,
                 job.Id.ToString(),  
-                $@"Downloads", 
-                unzip);
+                ProgramConstants.DownloadsFolderName, 
+                unzip,
+                open);
             
             var downloaded = downloadManager.StartDownload(_authorization.GetAuthorization());
 
