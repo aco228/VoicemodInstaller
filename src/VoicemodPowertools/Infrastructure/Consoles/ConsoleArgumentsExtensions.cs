@@ -12,18 +12,18 @@ public static class ConsoleArgumentsExtensions
         {
             var argSplit = arg.Split('=');
             
+            var argName = argSplit[0].Trim().ToLower().Replace("--", string.Empty);
+            if (!argName.Equals(searchParam)) continue;
+            
             if (argSplit.Length == 1 && typeof(T) == typeof(bool)) 
                 return (T)(object)true;
             
             if(argSplit.Length != 2) continue;
-            var argName = argSplit[0].Trim().ToLower().Replace("--", string.Empty);
-            
-            if (!argName.Equals(searchParam)) continue;
 
             return (T)Convert.ChangeType(argSplit[1].Trim(), typeof(T));
 
         }
-
+        
         return defaultReturn;
     }
 }

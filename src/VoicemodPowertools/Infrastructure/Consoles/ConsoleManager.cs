@@ -1,8 +1,6 @@
-﻿using System.Runtime.CompilerServices;
-using ConsoleImplementation;
+﻿using ConsoleImplementation;
 using VoicemodPowertools.Domain.Storage.Entries;
 using VoicemodPowertools.Services.Application;
-using VoicemodPowertools.Services.Application.ConsoleApplications;
 using VoicemodPowertools.Services.Gitlab;
 using VoicemodPowertools.Services.Storage;
 

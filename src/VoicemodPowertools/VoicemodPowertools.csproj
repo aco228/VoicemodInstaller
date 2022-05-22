@@ -24,4 +24,10 @@
       <Folder Include="Domain\Application" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="st.srg">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

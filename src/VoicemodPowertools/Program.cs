@@ -1,5 +1,6 @@
 using VoicemodPowertools.Application;
 using VoicemodPowertools.Domain.Installation;
+using VoicemodPowertools.Domain.Storage;
 using VoicemodPowertools.Domain.Storage.Entries;
 using VoicemodPowertools.Infrastructure.Gitlab;
 using VoicemodPowertools.Infrastructure.Http;
@@ -19,6 +20,8 @@ static class Program
         builder.Services.AddEndpointsApiExplorer();
         RegisterServices(builder.Services);
         var app = builder.Build();
+
+        RegisterSecrets(app.Environment.IsDevelopment(), app.Services);
         
         new Thread(() =>
         {
@@ -34,6 +37,7 @@ static class Program
     {
         services.AddTransient<IRequestClient, RequestClient>();
         services.AddSingleton<IStorageHandler, StorageHandler>();
+        services.AddSingleton<IGitlabSecretsService, GitlabSecretsService>();
         
         services.RegisterInstallationServices();
         services.RegisterGitlabServices();
@@ -44,23 +48,39 @@ static class Program
     {
         if (app.Environment.IsDevelopment()) { }
         app.UseHttpsRedirection();
-        //app.UseAuthorization();
         app.MapControllers();
         app.Run();
     }
 
-    private static bool CheckIfUserIsLoggedIn(IServiceProvider serviceProvider)
+    private static void RegisterSecrets(bool isDevelopment, IServiceProvider provider)
     {
-        var storageHandler = new StorageHandler();
-        var data = storageHandler.Get<GitlabAuthorization>();
-        if (data == null)
+        var secretsService = provider.GetService<IGitlabSecretsService>();
+        if (!isDevelopment)
         {
-            return false;
+            var s = secretsService.Get();
+            if (!s.IsValid())
+            {
+                Console.WriteLine("Error with SConfiguraion. App will close");
+                Environment.Exit(1);
+                return;
+            }
         }
         
-        Console.WriteLine($"Logged in as ${data.Username}");
+        var configuration = provider.GetService<IConfiguration>();
+        var clientId = configuration.GetValue<string>("GitlabApplicationId");
+        var clientSecret = configuration.GetValue<string>("GitlabApplicationSecret");
+        var projectId = configuration.GetValue<long>("GitlabVoicemodDesktopPID");
         
+        if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret) || projectId == 0)
+            return;
+
+        var model = new GitlabSecrets
+        {
+            ClientId = clientId,
+            ClientSecret = clientSecret,
+            ProjectId = projectId
+        };
         
-        return true;
+        secretsService.Save(model);
     }
 }

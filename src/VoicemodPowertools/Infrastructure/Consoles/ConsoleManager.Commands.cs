@@ -1,8 +1,9 @@
 ﻿using ConsoleImplementation;
 using VoicemodPowertools.Services.Application;
-using VoicemodPowertools.Services.Application.ConsoleApplications.ApplicationConsole;
-using VoicemodPowertools.Services.Application.ConsoleApplications.GitlabConsole;
-using VoicemodPowertools.Services.Application.ConsoleApplications.InstallationConsole;
+using VoicemodPowertools.Services.Application.ApplicationConsole;
+using VoicemodPowertools.Services.Application.DownloadsConsole;
+using VoicemodPowertools.Services.Application.GitlabConsole;
+using VoicemodPowertools.Services.Application.InstallationConsole;
 
 namespace VoicemodPowertools.Infrastructure.Consoles;
 
@@ -44,11 +45,19 @@ public partial class ConsoleManager : ConsoleManagerBase
                         Command = "is-installed", Application = typeof(ICheckIfVoicemodIsInstalled),
                         Description = "Check if voicemod is currently installed"
                     },
+                    new () { Command = "un", Application = typeof(IUnistallVoicemod), Description = "Shortcut for `uninstall`" },
                     new ()
                     {
                         Command = "uninstall", Application = typeof(IUnistallVoicemod),
                         Description = "Trigger setup for Voicemod Desktop uninstallation"
                     },
+                }
+            },
+            new()
+            {
+              Name  = "Download",
+              Commands = new()
+              {
                     new()
                     {
                         Command = "versions", Application = typeof(IGitlabPrintVersions), RequireAuth = true,
@@ -59,6 +68,10 @@ public partial class ConsoleManager : ConsoleManagerBase
                             "Use `--count=[NUMBER]' for number of versions you want to print (default=5, maximum=50)",
                             "Use `--develop=true' if you want to get only versions for develop (default=FALSE)",
                         },
+                    },
+                    new()
+                    {
+                        Command = "d-v", Application = typeof(IDownloadJobArchive), RequireAuth = true, Description = "Shortcut for `download-version`",
                     },
                     new()
                     {
@@ -74,6 +87,10 @@ public partial class ConsoleManager : ConsoleManagerBase
                     },
                     new()
                     {
+                        Command = "d-l", Application = typeof(IDownloadLatestVersion), RequireAuth = true, Description = "Shortcut for `download-latest`",
+                    },
+                    new()
+                    {
                         Command = "download-latest", Application = typeof(IDownloadLatestVersion), RequireAuth = true,
                         Description = "Download latest version from gitlab",
                         DescriptionMultiline = new()
@@ -84,13 +101,27 @@ public partial class ConsoleManager : ConsoleManagerBase
                             "Use `--open` if you want to open folder where file is downloaded"
                         },
                     },
-                }
+                    new()
+                    {
+                        Command = "o-d", Application = typeof(IOpenDownloadFolder), Description = "Shortcut for `downloads`",
+                    },
+                    new()
+                    {
+                        Command = "downloads", Application = typeof(IOpenDownloadFolder), RequireAuth = false, 
+                        Description = "Open downloads folder to check all downloaded versions",
+                    },
+              },
             },
             new()
             {
                 Name = "Application",
                 Commands = new()
                 {
+                    new ()
+                    {
+                        Command  = "c", Application = typeof(ICloseApplication),
+                        Description = "Close application"
+                    },
                     new ()
                     {
                         Command  = "close", Application = typeof(ICloseApplication),
@@ -103,9 +134,19 @@ public partial class ConsoleManager : ConsoleManagerBase
                     },
                     new ()
                     {
+                        Command  = "empty", Application = typeof(IClearDownloadFolder),
+                        Description = "Clear downloads folder and all of its contents"
+                    },
+                    new ()
+                    {
+                        Command = "h", Application = typeof(IConsoleHelp),
+                        Description = "Get all avaliable commands",
+                    },
+                    new ()
+                    {
                         Command = "--help", Application = typeof(IConsoleHelp),
                         Description = "Get all avaliable commands",
-                    }
+                    },
                 }
             }
         };

@@ -1,11 +1,13 @@
-﻿using VoicemodPowertools.Application.ConsoleApplications.ApplicationConsole;
-using VoicemodPowertools.Application.ConsoleApplications.GitlabConsole;
-using VoicemodPowertools.Application.ConsoleApplications.InstallationConsole;
+﻿using VoicemodPowertools.Application.ApplicationConsole;
+using VoicemodPowertools.Application.DownloadConsole;
+using VoicemodPowertools.Application.GitlabConsole;
+using VoicemodPowertools.Application.InstallationConsole;
 using VoicemodPowertools.Infrastructure.Installation;
 using VoicemodPowertools.Services.Application;
-using VoicemodPowertools.Services.Application.ConsoleApplications.ApplicationConsole;
-using VoicemodPowertools.Services.Application.ConsoleApplications.GitlabConsole;
-using VoicemodPowertools.Services.Application.ConsoleApplications.InstallationConsole;
+using VoicemodPowertools.Services.Application.ApplicationConsole;
+using VoicemodPowertools.Services.Application.DownloadsConsole;
+using VoicemodPowertools.Services.Application.GitlabConsole;
+using VoicemodPowertools.Services.Application.InstallationConsole;
 using VoicemodPowertools.Services.Gitlab;
 using IGitlabLogin = VoicemodPowertools.Services.Application.IGitlabLogin;
 
@@ -30,5 +32,6 @@ public static class ApplicationExtensions
         services.AddTransient<IDownloadJobArchive, DownloadJobArchive>();
         services.AddTransient<IDownloadLatestVersion, DownloadLatestVersion>();
         services.AddTransient<IClearDownloadFolder, ClearDownloadFolder>();
+        services.AddTransient<IOpenDownloadFolder, OpenDownloadFolder>();
     }
 }
