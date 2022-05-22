@@ -41,7 +41,6 @@ jobs:
           echo ::set-env name=UPLOAD_URL::$upload_url
           upload_url=$(curl -sL https://api.github.com/repos/actions/checkout/releases/latest | jq -r '.upload_url')
           echo UPLOAD_URL=$upload_url >> $GITHUB_ENV
-      shell: bash
 
     - name: 'Upload artifact'
     - uses: actions/upload-release-asset@v1
