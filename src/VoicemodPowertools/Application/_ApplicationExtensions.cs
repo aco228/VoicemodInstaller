@@ -33,5 +33,6 @@ public static class ApplicationExtensions
         services.AddTransient<IDownloadLatestVersion, DownloadLatestVersion>();
         services.AddTransient<IClearDownloadFolder, ClearDownloadFolder>();
         services.AddTransient<IOpenDownloadFolder, OpenDownloadFolder>();
+        services.AddTransient<IInstallVoicemod, InstallVoicemod>();
     }
 }

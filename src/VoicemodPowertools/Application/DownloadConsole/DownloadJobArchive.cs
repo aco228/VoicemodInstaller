@@ -1,6 +1,4 @@
-﻿using VoicemodPowertools.Domain;
-using VoicemodPowertools.Infrastructure.Consoles;
-using VoicemodPowertools.Infrastructure.Installation;
+﻿using VoicemodPowertools.Infrastructure.Consoles;
 using VoicemodPowertools.Services.Application.DownloadsConsole;
 using VoicemodPowertools.Services.Gitlab;
 using VoicemodPowertools.Services.Storage;
@@ -51,7 +49,7 @@ public class DownloadJobArchive : IDownloadJobArchive
             await _jobDownloader.Download(new()
             {
                 JobId = job.Id,
-                Unzip = args.GetValue("unzip", false),
+                Unzip = args.GetValue("unzip", true),
                 OpenFolderOnDownload = args.GetValue("open", false),
             });
         }

@@ -40,6 +40,20 @@ public partial class ConsoleManager : ConsoleManagerBase
                 Name = "Installation",
                 Commands = new()
                 {
+                    new () { Command = "in", Application = typeof(IInstallVoicemod), Description = "Shortcut for `install`", RequireAuth = true, }, 
+                    new ()
+                    {
+                        Command = "install", Application = typeof(IInstallVoicemod), RequireAuth = true,
+                        Description = "Install version of voicemod",
+                        DescriptionMultiline = new List<string>
+                        {
+                          "First `uninstall` will be triggered if there is some version currently installed",
+                          "After you go through uninstall, and download new version, you will automatically start new installation",
+                          "In first argument you can send JobId for specific version you want to download/install",
+                          "To get available versions, use `versions` command",
+                          "Use `--develop` flag if you want to download latest version from develop branch",
+                        },
+                    },
                     new ()
                     {
                         Command = "is-installed", Application = typeof(ICheckIfVoicemodIsInstalled),
@@ -49,7 +63,11 @@ public partial class ConsoleManager : ConsoleManagerBase
                     new ()
                     {
                         Command = "uninstall", Application = typeof(IUnistallVoicemod),
-                        Description = "Trigger setup for Voicemod Desktop uninstallation"
+                        Description = "Trigger setup for Voicemod Desktop uninstallation",
+                        DescriptionMultiline = new()
+                        {
+                            "Use `--wait` for program to wait until voicemod is uninstalled",
+                        },
                     },
                 }
             },
@@ -81,7 +99,7 @@ public partial class ConsoleManager : ConsoleManagerBase
                         {
                             "Will look only for jobs with state `3.QA Integration`",
                             "[REQUIRED] As parameter send job id! You can get job id from `versions` command",
-                            "Use `--unzip` if you want to unzip file when downloaded (FALSE by default)",
+                            "Use `--unzip` if you want to unzip file when downloaded (TRUE by default)",
                             "Use `--open` if you want to open folder where file is downloaded"
                         },
                     },
@@ -97,7 +115,7 @@ public partial class ConsoleManager : ConsoleManagerBase
                         {
                             "Will look only for jobs with state `3.QA Integration`",
                             "Use `--develop` if you only want to download one from develop branch (FALSE by default)`",
-                            "Use `--unzip` if you want to unzip file when downloaded (FALSE by default)",
+                            "Use `--unzip` if you want to unzip file when downloaded (TRUE by default)",
                             "Use `--open` if you want to open folder where file is downloaded"
                         },
                     },

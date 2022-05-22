@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using VoicemodPowertools.Infrastructure.Consoles;
 using VoicemodPowertools.Services.Application;
 using VoicemodPowertools.Services.Application.InstallationConsole;
 
@@ -35,5 +36,19 @@ public class UnistallVoicemod : IUnistallVoicemod
             UseShellExecute = true
         };
         Process.Start(openWebpageProcess);
+        
+        if (args.GetValue("wait", false))
+            for (;;)
+            {
+                var uf = new FileInfo($"{registry.Location}/unins000.exe");
+                if (!uf.Exists)
+                {
+                    Console.WriteLine("Voicemod is unistalled");
+                    return;
+                }
+                    
+                Thread.Sleep(2000);
+            }
+            
     }
 }
