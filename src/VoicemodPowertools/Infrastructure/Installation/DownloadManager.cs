@@ -59,7 +59,7 @@ public class DownloadManager : IDownloadManager
             Console.WriteLine(@"Downloading file:");
             client.DownloadFileAsync(ur, DownloadPath);
             _semaphore.Wait(timeoutInMinutes * 60 * 1000);
-            return _result && File.Exists(DownloadPath);
+            return _result && (_unzip ? Directory.Exists(Path.Combine((new DirectoryInfo(_downloadDirectory)).FullName, _fileName)) : File.Exists(DownloadPath));
         }
         catch (Exception e)
         {

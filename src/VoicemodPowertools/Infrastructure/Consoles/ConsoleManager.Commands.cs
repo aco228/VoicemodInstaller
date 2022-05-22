@@ -1,4 +1,5 @@
 ﻿using ConsoleImplementation;
+using VoicemodPowertools.Services.Application;
 using VoicemodPowertools.Services.Application.ConsoleApplications.ApplicationConsole;
 using VoicemodPowertools.Services.Application.ConsoleApplications.GitlabConsole;
 using VoicemodPowertools.Services.Application.ConsoleApplications.InstallationConsole;
@@ -64,10 +65,20 @@ public partial class ConsoleManager : ConsoleManagerBase
                         Description = "Download job archive",
                         DescriptionMultiline = new()
                         {
-                          "[REQUIRED] As parameter send job id! You can get job id from `versions` command",
-                          "Use `--unzip` if you want to unzip file when downloaded (FALSE by default)",
+                            "[REQUIRED] As parameter send job id! You can get job id from `versions` command",
+                            "Use `--unzip` if you want to unzip file when downloaded (FALSE by default)",
                         },
-                    }
+                    },
+                    new()
+                    {
+                        Command = "download-latest", Application = typeof(IDownloadLatestVersion), RequireAuth = true,
+                        Description = "Download latest version from gitlab",
+                        DescriptionMultiline = new()
+                        {
+                            "Use `--develop` if you only want to download one from develop branch (FALSE by default)`",
+                            "Use `--unzip` if you want to unzip file when downloaded (FALSE by default)",
+                        },
+                    },
                 }
             },
             new()

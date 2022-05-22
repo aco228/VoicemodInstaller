@@ -28,5 +28,6 @@ public static class ApplicationExtensions
         services.AddTransient<IUnistallVoicemod, UnistallVoicemod>();
         services.AddTransient<IGitlabPrintVersions, GitlabPrintVersions>();
         services.AddTransient<IDownloadJobArchive, DownloadJobArchive>();
+        services.AddTransient<IDownloadLatestVersion, DownloadLatestVersion>();
     }
 }
