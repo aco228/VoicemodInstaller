@@ -29,10 +29,10 @@ public class GitlabPrintVersions : IGitlabPrintVersions
 
         try
         {
+            Console.WriteLine($"{"JobId", 10} - {"Branch", 60} - {"User", 20} -- Date");
+            Console.WriteLine($"---------------------------------------------------------------------------------------------------------------------");
             await foreach (var version in _jobService.GetJobs(projectId, count, onlyDevelop))
-            {
                 Console.WriteLine($"{version.Id, 10} - {version.Reference, 60} - {version.User.Username, 20} -- {version.Finished.Humanize()}");
-            }
             
         }
         catch (Exception ex)

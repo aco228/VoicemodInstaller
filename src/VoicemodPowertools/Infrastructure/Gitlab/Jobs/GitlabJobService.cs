@@ -15,6 +15,9 @@ public class GitlabJobService : IGitlabJobService
     public Task<List<JobResponse>> GetProjectJobs(GitlabJobsRequest request)
         => _httpClient.Get<List<JobResponse>>($"projects/{request.ProjectId}/jobs?scope=success&page={request.Page}&per_page={request.PerPage}");
 
+    public Task<JobResponse> GetProjectJob(long projectId, long jobId)
+        => _httpClient.Get<JobResponse>($"projects/{projectId}/jobs/{jobId}");
+
     public async IAsyncEnumerable<JobResponse> GetJobs(long projectId, int count = 1, bool onlyDevelop = false)
     {
         var currentPage = 1;

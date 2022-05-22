@@ -50,12 +50,22 @@ public partial class ConsoleManager : ConsoleManagerBase
                     },
                     new()
                     {
-                        Command = "versions", Application = typeof(IGitlabPrintVersions),
+                        Command = "versions", Application = typeof(IGitlabPrintVersions), RequireAuth = true,
                         Description = "Get all available versions for download from gitlab",
                         DescriptionMultiline = new()
                         {
                             "Use `--count=[NUMBER]' for number of versions you want to print (default=5, maximum=50)",
                             "Use `--develop=true' if you want to get only versions for develop (default=FALSE)",
+                        },
+                    },
+                    new()
+                    {
+                        Command = "download-version", Application = typeof(IDownloadJobArchive), RequireAuth = true,
+                        Description = "Download job archive",
+                        DescriptionMultiline = new()
+                        {
+                          "[REQUIRED] As parameter send job id! You can get job id from `versions` command",
+                          "Use `--unzip` if you want to unzip file when downloaded (FALSE by default)",
                         },
                     }
                 }

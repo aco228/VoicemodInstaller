@@ -27,5 +27,6 @@ public static class ApplicationExtensions
         services.AddTransient<ICheckIfVoicemodIsInstalled, CheckIfVoicemodIsInstalled>();
         services.AddTransient<IUnistallVoicemod, UnistallVoicemod>();
         services.AddTransient<IGitlabPrintVersions, GitlabPrintVersions>();
+        services.AddTransient<IDownloadJobArchive, DownloadJobArchive>();
     }
 }

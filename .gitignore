@@ -294,4 +294,5 @@ __pycache__/
 
 # Ignore console test application
 *.rg
+*/VoicemodPowertools/Downloads/*
 
