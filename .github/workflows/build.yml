@@ -2,7 +2,8 @@ name: Build and release application
 
 on:
   push:
-    branches: [ master ]
+    tags:
+      - 'v*'
 
 jobs:
   build:
@@ -32,3 +33,17 @@ jobs:
         # Artifact name
         name: TestDownloadableArtifact #.zip will be added automatically
         path: src/VoicemodPowertools/bin/release/net6.0/*.*
+        
+    - name: "Determine tag"
+      run: "echo \"RELEASE_TAG=${GITHUB_REF#refs/tags/}\" >> $GITHUB_ENV"
+      
+    - name: Release
+      uses: actions/create-release@v1
+      id: create_release
+      with:
+        draft: false
+        prerelease: false
+        release_name: Release_${{ process.env.RELEASE_TAG }} # ${{ steps.version.outputs.version }}
+        tag_name: ${{ github.ref }}
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
