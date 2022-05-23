@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Humanizer;
+using Newtonsoft.Json;
 using VoicemodPowertools.Domain.Gitlab.Models;
 
 namespace VoicemodPowertools.Domain.Gitlab.Jobs;
@@ -28,6 +29,16 @@ public record JobResponse
     
     [JsonProperty("finished_at")]
     public DateTime Finished { get; set; }
+
+    public void Print()
+    {
+        Console.WriteLine("\tFound version:");
+        Console.WriteLine($"\t\t{"JobId", 5} - {Id}");
+        Console.WriteLine($"\t\t{"UserId", 5} - {User.Username}");
+        Console.WriteLine($"\t\t{"Branch", 5} - {Reference}");
+        Console.WriteLine($"\t\t{"Created", 5} - {Finished.Humanize()}");
+        Console.WriteLine();
+    }
 }
 
 public record JobArtifactResponse

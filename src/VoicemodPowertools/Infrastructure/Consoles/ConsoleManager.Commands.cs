@@ -84,39 +84,28 @@ public partial class ConsoleManager : ConsoleManagerBase
                         {
                             "Will look only for jobs with state `3.QA Integration`",
                             "Use `--count=[NUMBER]' for number of versions you want to print (default=5, maximum=50)",
-                            "Use `--develop=true' if you want to get only versions for develop (default=FALSE)",
+                            "Use `--develop' if you want to get only versions for develop (default=FALSE)",
                         },
                     },
                     new()
                     {
-                        Command = "d-v", Application = typeof(IDownloadJobArchive), RequireAuth = true, Description = "Shortcut for `download-version`",
+                        Command = "d", Application = typeof(IDownloadVersion), RequireAuth = true, Description = "Shortcut for `download-version`",
                     },
                     new()
                     {
-                        Command = "download-version", Application = typeof(IDownloadJobArchive), RequireAuth = true,
+                        Command = "download", Application = typeof(IDownloadVersion), RequireAuth = true,
                         Description = "Download job archive",
                         DescriptionMultiline = new()
                         {
                             "Will look only for jobs with state `3.QA Integration`",
-                            "[REQUIRED] As parameter send job id! You can get job id from `versions` command",
+                            "[IMPORTANT] Use first parameter as number if you want to download specific version",
+                            "            You can find specific version for download with `versions` command",
+                            "            If version is not provided, it will find last version avaliable",
                             "Use `--unzip` if you want to unzip file when downloaded (TRUE by default)",
-                            "Use `--open` if you want to open folder where file is downloaded"
-                        },
-                    },
-                    new()
-                    {
-                        Command = "d-l", Application = typeof(IDownloadLatestVersion), RequireAuth = true, Description = "Shortcut for `download-latest`",
-                    },
-                    new()
-                    {
-                        Command = "download-latest", Application = typeof(IDownloadLatestVersion), RequireAuth = true,
-                        Description = "Download latest version from gitlab",
-                        DescriptionMultiline = new()
-                        {
-                            "Will look only for jobs with state `3.QA Integration`",
-                            "Use `--develop` if you only want to download one from develop branch (FALSE by default)`",
-                            "Use `--unzip` if you want to unzip file when downloaded (TRUE by default)",
-                            "Use `--open` if you want to open folder where file is downloaded"
+                            "Use `--open` if you want to open folder where file is downloaded",
+                            "Use `--develop` if you want to download last version with develop brant",
+                            "                it will be used only if you did not provide specific version",
+                            "                with first parameter",
                         },
                     },
                     new()

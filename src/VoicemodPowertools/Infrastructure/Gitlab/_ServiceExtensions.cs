@@ -1,4 +1,5 @@
-﻿using VoicemodPowertools.Infrastructure.Gitlab.Authorization;
+﻿using VoicemodPowertools.Domain.Gitlab.Jobs;
+using VoicemodPowertools.Infrastructure.Gitlab.Authorization;
 using VoicemodPowertools.Infrastructure.Gitlab.Jobs;
 using VoicemodPowertools.Services.Gitlab;
 
@@ -14,4 +15,5 @@ public static class ServiceExtensions
         services.AddTransient<IGitlabUserService, GitlabUserService>();
         services.AddTransient<IGitlabJobDownloader, GitlabJobDownloader>();
     }
+
 }
