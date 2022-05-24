@@ -38,7 +38,7 @@ public class GitlabRefreshToken : IGitlabRefreshToken
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error refreshing token");
+            Console.WriteLine($"Error refreshing token, {ex}");
         }
     }
 }

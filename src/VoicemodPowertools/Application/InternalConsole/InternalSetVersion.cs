@@ -33,5 +33,7 @@ public class InternalSetVersion : IInternalSetVersion
         
         Console.WriteLine($"Version set to ${version}");
         _storageHandler.Save(internalApplication);
+        
+        Environment.Exit(0);
     }
 }

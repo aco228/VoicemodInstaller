@@ -4,9 +4,7 @@ using VoicemodPowertools.Services.Storage;
 namespace VoicemodPowertools.Domain.Storage;
 
 public class GitlabSecretsService : IGitlabSecretsService
-{
-    private readonly string STORAGE_NAME = "st.srg";
-    
+{   
     private readonly IStorageHandler _storageHandler;
     private GitlabSecrets _secrets = null;
     
@@ -20,14 +18,14 @@ public class GitlabSecretsService : IGitlabSecretsService
         if (_secrets != null)
             return _secrets;
 
-        _secrets = _storageHandler.GetStorageFile<GitlabSecrets>(STORAGE_NAME);
+        _secrets = _storageHandler.Get<GitlabSecrets>();
         return _secrets;
     }
 
     public void Save(GitlabSecrets secrets)
     {
         _secrets = secrets;
-        _storageHandler.SaveStorageFile(STORAGE_NAME, secrets);
+        _storageHandler.Save(secrets);
     }
     
     

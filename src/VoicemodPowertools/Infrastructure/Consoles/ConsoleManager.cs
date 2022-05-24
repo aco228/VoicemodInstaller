@@ -1,6 +1,7 @@
 ﻿using ConsoleImplementation;
 using Humanizer;
 using VoicemodPowertools.Application.InternalConsole;
+using VoicemodPowertools.Domain;
 using VoicemodPowertools.Domain.Storage.Entries;
 using VoicemodPowertools.Services.Application;
 using VoicemodPowertools.Services.Gitlab;
@@ -30,6 +31,12 @@ public partial class ConsoleManager : ConsoleManagerBase
     {
         Console.Title = "Voicemod | Powertools";
         Console.WriteLine("Voicemod | Powertools");
+
+        if (_args.GetValue("ignore-sec", false) && !File.Exists(ProgramConstants.SecretsFile))
+        {
+            Console.WriteLine("Program corrupted!");
+            Environment.Exit(1);
+        }
         
         var storageHandler = _serviceProvider.GetService<IStorageHandler>();
         var storageData = storageHandler.GetCurrent();

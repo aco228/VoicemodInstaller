@@ -11,4 +11,12 @@ public class GitlabSecrets : StorageEntryBase
     {
         return !string.IsNullOrEmpty(ClientId) && !string.IsNullOrEmpty(ClientSecret) || ProjectId != 0;
     }
+
+    public void Print()
+    {
+        Console.WriteLine($"ClientID: {ClientId}");
+        Console.WriteLine($"ClientSecret: {ClientSecret}");
+        Console.WriteLine($"ProjectId: {ProjectId}");
+    }
+    
 }
