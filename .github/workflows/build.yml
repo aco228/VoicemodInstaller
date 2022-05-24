@@ -54,7 +54,7 @@ jobs:
         draft: false
         prerelease: false
         release_name: ${{ steps.version.outputs.version }}
-        tag_name: ${{ github.ref }}
+        tag_name: v.1.0.10 #${{ github.ref }}
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
