@@ -37,7 +37,8 @@ jobs:
     
     - name: Build
       working-directory: src/VoicemodPowertools
-      run: dotnet build -c release --no-restore
+      #run: dotnet build -c release --no-restore
+      run: dotnet build -c Release -p:PublishProfile="./run/Publish FrameworkDependent.run.xml"
       
     - uses: papeloto/action-zip@v1
       with:
