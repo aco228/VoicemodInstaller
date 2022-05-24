@@ -31,10 +31,31 @@ public class InternalSetSecrets : IInternalSetSecrets
                 Console.WriteLine("No secrets offered");
                 Environment.Exit(1);
             }
+            
+            var version = args.GetValue("version", string.Empty);
+            if (string.IsNullOrEmpty(version))
+            {
+                Console.WriteLine("No version offered");
+                Environment.Exit(1);
+            }
 
             gitlabSecrets.Print();
             _storageHandler.Save(gitlabSecrets);
 
+            var internalApplication = new InternalApplicationData
+            {
+                Version = version,
+                BuiltAt = DateTime.Now,
+            };
+            
+            Console.WriteLine($"Version set to ${version}");
+            _storageHandler.Save(internalApplication);
+
+            if (File.Exists(ProgramConstants.SecretsFile))
+            {
+                Console.WriteLine("FILE EXISTS");
+            }
+            
             Environment.Exit(0);
         }
         catch(Exception ex)
