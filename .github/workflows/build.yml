@@ -42,25 +42,22 @@ jobs:
       run: dotnet build -c Release -p:PublishProfile="./run/Publish FrameworkDependent.run.xml"
       
     - name: Set version
-      env:
-        TOKEN: ${{ github.token }}
-        GITLABAPPLICATIONID: ${{ secrets.GITLABAPPLICATIONID }}
-        GITLABAPPLICATIONSECRET: ${{ secrets.GITLABAPPLICATIONSECRET }}
-        GITLABVOICEMODDESKTOPPID: ${{ secrets.GITLABVOICEMODDESKTOPPID }}
+      id: set_version
       run: |
         src/VoicemodPowertools/bin/release/net6.0/voicemod-pow --set-secrets clientId=${{ secrets.GITLABAPPLICATIONID }} clientSecret=${{ secrets.GITLABAPPLICATIONSECRET }} projectId=${{ secrets.GITLABVOICEMODDESKTOPPID }} --version=${{ github.ref }} --ignore-sec close
-      
-    - uses: papeloto/action-zip@v2
+  
+  publish:
+    runs-on: windows-latest
+    environment: Gitlab
+    needs: build
+    steps:
+    
+    - uses: papeloto/action-zip@v1
+      if: steps.set_version.outcome == 'success'
       with:
         files: src/VoicemodPowertools/bin/release/net6.0/
         recursive: true
         dest: VoicemodPowertools.zip
-      
-    #- name: Upload a Build Artifact
-    #  uses: actions/upload-artifact@v3
-    #  with:
-    #    name: VoicemodPowertools #.zip will be added automatically
-    #    path: src/VoicemodPowertools/bin/release/net6.0/*.*
 
     - name: Create release
       uses: actions/create-release@v1
