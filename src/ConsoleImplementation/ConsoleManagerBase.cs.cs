@@ -44,6 +44,7 @@ public abstract class ConsoleManagerBase
             
         split.RemoveAt(0);
         await OnCommand(command, split.ToArray());
+        
         Console.WriteLine();
     }
 
