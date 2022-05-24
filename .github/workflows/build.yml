@@ -20,6 +20,7 @@ jobs:
       with:
         script: |
             console.log('test test');
+            console.log(github.ref);
     
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
