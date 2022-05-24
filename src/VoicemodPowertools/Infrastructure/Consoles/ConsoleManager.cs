@@ -42,6 +42,8 @@ public partial class ConsoleManager : ConsoleManagerBase
         }
 
         await ProcessCommand(_args);
+        if (_args.Length >= 1 && _args.GetValue("close", false))
+            Environment.Exit(0);
     }
 
     protected override async Task OnCommand(ArgumentCommand command, string[] args)

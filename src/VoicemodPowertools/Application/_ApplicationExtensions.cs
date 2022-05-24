@@ -2,12 +2,14 @@
 using VoicemodPowertools.Application.DownloadConsole;
 using VoicemodPowertools.Application.GitlabConsole;
 using VoicemodPowertools.Application.InstallationConsole;
+using VoicemodPowertools.Application.InternalConsole;
 using VoicemodPowertools.Infrastructure.Installation;
 using VoicemodPowertools.Services.Application;
 using VoicemodPowertools.Services.Application.ApplicationConsole;
 using VoicemodPowertools.Services.Application.DownloadsConsole;
 using VoicemodPowertools.Services.Application.GitlabConsole;
 using VoicemodPowertools.Services.Application.InstallationConsole;
+using VoicemodPowertools.Services.Application.InternalConsole;
 using VoicemodPowertools.Services.Gitlab;
 using IGitlabLogin = VoicemodPowertools.Services.Application.IGitlabLogin;
 
@@ -33,5 +35,7 @@ public static class ApplicationExtensions
         services.AddTransient<IClearDownloadFolder, ClearDownloadFolder>();
         services.AddTransient<IOpenDownloadFolder, OpenDownloadFolder>();
         services.AddTransient<IInstallVoicemod, InstallVoicemod>();
+
+        services.AddTransient<IInternalSetVersion, InternalSetVersion>();
     }
 }

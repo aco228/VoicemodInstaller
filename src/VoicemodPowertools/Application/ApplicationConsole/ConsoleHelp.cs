@@ -9,6 +9,8 @@ public class ConsoleHelp : IConsoleHelp
     {
         foreach (var group in ConsoleManager.Current.Groups)
         {
+            if(group.HideFromHelp) continue;
+            
             Console.WriteLine($"\t {group.Name.ToUpper()}");
             Console.WriteLine($"\t -------------------------------------------");
             foreach (var command in group.Commands)

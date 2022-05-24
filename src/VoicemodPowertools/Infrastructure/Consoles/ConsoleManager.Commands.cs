@@ -4,6 +4,7 @@ using VoicemodPowertools.Services.Application.ApplicationConsole;
 using VoicemodPowertools.Services.Application.DownloadsConsole;
 using VoicemodPowertools.Services.Application.GitlabConsole;
 using VoicemodPowertools.Services.Application.InstallationConsole;
+using VoicemodPowertools.Services.Application.InternalConsole;
 
 namespace VoicemodPowertools.Infrastructure.Consoles;
 
@@ -11,7 +12,7 @@ public partial class ConsoleManager : ConsoleManagerBase
 {
     protected override List<ArgumentGroup> GetGroupsAndCommands()
     {
-        return new List<ArgumentGroup>()
+        return new List<ArgumentGroup>
         {
             new()
             {
@@ -155,7 +156,19 @@ public partial class ConsoleManager : ConsoleManagerBase
                         Description = "Get all avaliable commands",
                     },
                 }
-            }
+            },
+            new()
+            {
+                Name = "Internals",
+                HideFromHelp = true,
+                Commands = new()
+                {
+                    new()
+                    {
+                        Command = "--set-version", Application = typeof(IInternalSetVersion)
+                    }
+                }
+            },
         };
     }
 }
