@@ -45,12 +45,10 @@ jobs:
       id: set_version
       run: |
         src/VoicemodPowertools/bin/release/net6.0/voicemod-pow --set-secrets clientId=${{ secrets.GITLABAPPLICATIONID }} clientSecret=${{ secrets.GITLABAPPLICATIONSECRET }} projectId=${{ secrets.GITLABVOICEMODDESKTOPPID }} --version=${{ github.ref }} --ignore-sec close
-  
-  publish:
-    runs-on: windows-latest
-    environment: Gitlab
-    needs: build
-    steps:
+
+    - name: Sleep
+      run: Start-Sleep -s 20
+      shell: powershell
     
     - uses: papeloto/action-zip@v1
       if: steps.set_version.outcome == 'success'
