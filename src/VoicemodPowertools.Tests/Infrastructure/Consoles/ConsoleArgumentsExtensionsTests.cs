@@ -27,4 +27,12 @@ public class ConsoleArgumentsExtensionsTests
         var args = new[] {"testFlag=1", "other=1", "testflag2=5"};
         Assert.Equal(expectedValue, args.GetValue(flagName, -1));
     }
+
+    [Fact]
+    public void Should_Return_Default_String_If_There_Is_No()
+    {
+        var args = new[] {"testFlag=", "other=1", "testflag2=5"};
+        var res = args.GetValue("testFlag", "default");
+        Assert.Equal("default", res);
+    }
 }

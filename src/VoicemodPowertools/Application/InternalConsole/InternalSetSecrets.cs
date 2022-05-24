@@ -17,22 +17,29 @@ public class InternalSetSecrets : IInternalSetSecrets
     
     public async Task Execute(string[] args)
     {
-        var gitlabSecrets = new GitlabSecrets
+        try
         {
-            ClientId = args.GetValue("clientId", string.Empty),
-            ClientSecret = args.GetValue("clientSecret", string.Empty),
-            ProjectId = args.GetValue("projectId", (long)-1),
-        };
+            var gitlabSecrets = new GitlabSecrets
+            {
+                ClientId = args.GetValue("clientId", string.Empty),
+                ClientSecret = args.GetValue("clientSecret", string.Empty),
+                ProjectId = args.GetValue("projectId", (long) -1),
+            };
 
-        if (!gitlabSecrets.IsValid())
-        {
-            Console.WriteLine("No secrets offered");
-            Environment.Exit(1);
+            if (!gitlabSecrets.IsValid())
+            {
+                Console.WriteLine("No secrets offered");
+                Environment.Exit(1);
+            }
+
+            gitlabSecrets.Print();
+            _storageHandler.Save(gitlabSecrets);
+
+            Environment.Exit(0);
         }
-
-        gitlabSecrets.Print();
-        _storageHandler.Save(gitlabSecrets);
-        
-        Environment.Exit(0);
+        catch(Exception ex)
+        {
+            Console.WriteLine($"Exception {ex}");
+        }
     }
 }
