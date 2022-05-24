@@ -16,7 +16,7 @@ public class InternalSetVersion : IInternalSetVersion
     
     public async Task Execute(string[] args)
     {
-        if (args.Length != 1)
+        if (args.Length == 0)
         {
             Console.WriteLine("No version");
             return;
