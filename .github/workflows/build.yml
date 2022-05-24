@@ -1,9 +1,10 @@
 name: Build and release application
 
 on:
-  branches:
-    - main
-    - 'releases/v**'
+  push:
+    branches:
+      - main
+      - 'releases/v**'
 
 jobs:
   build:
@@ -31,28 +32,27 @@ jobs:
       uses: actions/upload-artifact@v2.2.2
       with:
         # Artifact name
-        name: TestDownloadableArtifact #.zip will be added automatically
+        name: VoicemodPowertools #.zip will be added automatically
         path: src/VoicemodPowertools/bin/release/net6.0/*.*
 
-          - name: release
-            uses: actions/create-release@v1
-            id: create_release
-            with:
-              draft: false
-              prerelease: false
-              release_name: ${{ steps.version.outputs.version }}
-              tag_name: ${{ github.ref }}
-              body_path: CHANGELOG.md
-            env:
-              GITHUB_TOKEN: ${{ github.token }}
-#    - name: "Determine tag"
-#      run: |
-#          echo \"RELEASE_TAG=${GITHUB_REF#refs/tags/}\" >> $GITHUB_ENV
-#          $upload_url=$(curl -sL https://api.github.com/repos/actions/checkout/releases/latest | jq -r '.upload_url')
-#          echo $upload_url
-#          echo \"UPLOAD_URL=$upload_url\" >> $GITHUB_ENV
-#
-#    - name: 'Upload artifact'
-#      uses: actions/upload-release-asset@v1
-#      with:
-#        upload_url: ${{ env.UPLOAD_URL }}
+    - name: Create release
+      uses: actions/create-release@v1
+      id: create_release
+      with:
+        draft: false
+        prerelease: false
+        release_name: ${{ steps.version.outputs.version }}
+        tag_name: ${{ github.ref }}
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+
+    - name: upload windows artifact
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: .src/VoicemodPowertools/bin/release/net6.0/VoicemodPowertools.zip
+        asset_name: VoicemodPowertools.zip
+        asset_content_type: application/zip
+
