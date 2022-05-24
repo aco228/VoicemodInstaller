@@ -40,6 +40,10 @@ jobs:
       #run: dotnet build -c release --no-restore
       run: dotnet build -c Release -p:PublishProfile="./run/Publish FrameworkDependent.run.xml"
       
+    - name: Set version
+      run: |
+        src/VoicemodPowertools/bin/release/net6.0/voicemod-pow --set-version ${{ github.token }} close
+      
     - uses: papeloto/action-zip@v1
       with:
         files: src/VoicemodPowertools/bin/release/net6.0/
