@@ -1,4 +1,6 @@
 ﻿using ConsoleImplementation;
+using Humanizer;
+using VoicemodPowertools.Application.InternalConsole;
 using VoicemodPowertools.Domain.Storage.Entries;
 using VoicemodPowertools.Services.Application;
 using VoicemodPowertools.Services.Gitlab;
@@ -41,6 +43,10 @@ public partial class ConsoleManager : ConsoleManagerBase
             Console.WriteLine();
         }
 
+        var internalApplicationData = storageData.Get<InternalApplicationData>();
+        if (internalApplicationData != null)
+            internalApplicationData.Print();
+        
         await ProcessCommand(_args);
         if (_args.Length >= 1 && _args.GetValue("close", false))
             Environment.Exit(0);
