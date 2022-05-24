@@ -51,6 +51,7 @@ public class GitlabJobDownloader : IGitlabJobDownloader
                 var file = new FileInfo(request.DownloadPath);
                 if (file.Length == 0)
                 {
+                    _semaphore.Release();
                     Console.WriteLine("Looks like file is corrupted, as its downloaded size is 0");
                     return;
                 }
