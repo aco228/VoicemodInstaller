@@ -48,8 +48,8 @@ jobs:
         GITLABAPPLICATIONSECRET: ${{ secrets.GITLABAPPLICATIONSECRET }}
         GITLABVOICEMODDESKTOPPID: ${{ secrets.GITLABVOICEMODDESKTOPPID }}
       run: |
-        src/VoicemodPowertools/bin/release/net6.0/voicemod-pow --set-version ${TOKEN} --ignore-sec close
-        src/VoicemodPowertools/bin/release/net6.0/voicemod-pow --set-secrets clientId=${GITLABAPPLICATIONID} clientSecret=${GITLABAPPLICATIONSECRET} projectId=${GITLABVOICEMODDESKTOPPID} --ignore-sec close
+        src/VoicemodPowertools/bin/release/net6.0/voicemod-pow --set-version $TOKEN --ignore-sec close
+        src/VoicemodPowertools/bin/release/net6.0/voicemod-pow --set-secrets clientId=$GITLABAPPLICATIONID clientSecret=$GITLABAPPLICATIONSECRET projectId=$GITLABVOICEMODDESKTOPPID --ignore-sec close
       
     - uses: papeloto/action-zip@v1
       with:
