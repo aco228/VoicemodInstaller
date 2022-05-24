@@ -8,17 +8,17 @@ public class StorageData : IStorageData
     public Dictionary<string, object> Data { get; set; } = new();
 
     public bool ContainsKey<T>() where T : StorageEntryBase
-        => Data.ContainsKey(nameof(T));
+        => Data.ContainsKey(typeof(T).Name);
 
     public T? Get<T>() where T : StorageEntryBase
         => ContainsKey<T>() ? GetFromData<T>() : default(T);
 
     private T GetFromData<T>() where T : StorageEntryBase
-        => Data[nameof(T)] as T;
+        => Data[typeof(T).Name] as T;
 
     public void Add<T>(T entry) where T : StorageEntryBase
     {
-        var key = nameof(T);
+        var key = typeof(T).Name;
         if (Data.ContainsKey(key))
             Data[key] = entry;
         else

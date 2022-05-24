@@ -1,16 +1,16 @@
-﻿using VoicemodPowertools.Domain.Storage;
+﻿using VoicemodPowertools.Domain;
+using VoicemodPowertools.Domain.Storage;
 using VoicemodPowertools.Services.Storage;
 
 namespace VoicemodPowertools.Infrastructure.Storage;
 
 public class StorageHandler : IStorageHandler
 {
-    private readonly string STORAGE_NAME = "st.rg";
     private static StorageData _storage = null;
 
     public event IStorageHandler.OnStorageChange? StateHasChanges;
     
-    public bool StorageExists() => File.Exists(STORAGE_NAME);
+    public bool StorageExists() => File.Exists(ProgramConstants.SecretsFile);
     
     public T? Get<T>() where T : StorageEntryBase
     {
@@ -38,18 +38,21 @@ public class StorageHandler : IStorageHandler
             return _storage;
         }
 
-        _storage = GetStorageFile<StorageData>(STORAGE_NAME);
+        _storage = GetStorageFile<StorageData>(ProgramConstants.SecretsFile);
         return _storage;
     }
 
     private void Save(StorageData storageData)
     {
         _storage = storageData;
-        SaveStorageFile<StorageData>(STORAGE_NAME, _storage);
+        SaveStorageFile<StorageData>(ProgramConstants.SecretsFile, _storage);
     }
 
     public T GetStorageFile<T>(string fileName) where T : class
-        => StorageHandlerExtensions.ReadFile<T>(fileName);
+    {
+        if (!File.Exists(fileName)) return default;
+        return StorageHandlerExtensions.ReadFile<T>(fileName);
+    }
 
     public void SaveStorageFile<T>(string fileName, T file) where T : class
         => StorageHandlerExtensions.WriteFile(fileName, file);

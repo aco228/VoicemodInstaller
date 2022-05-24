@@ -1,6 +1,7 @@
 ﻿using ConsoleImplementation;
 using Humanizer;
 using VoicemodPowertools.Application.InternalConsole;
+using VoicemodPowertools.Domain;
 using VoicemodPowertools.Domain.Storage.Entries;
 using VoicemodPowertools.Services.Application;
 using VoicemodPowertools.Services.Gitlab;
@@ -31,8 +32,17 @@ public partial class ConsoleManager : ConsoleManagerBase
         Console.Title = "Voicemod | Powertools";
         Console.WriteLine("Voicemod | Powertools");
         
+        
         var storageHandler = _serviceProvider.GetService<IStorageHandler>();
         var storageData = storageHandler.GetCurrent();
+
+        var gitlabSecrets = storageHandler.Get<GitlabSecrets>();
+        if (!gitlabSecrets.IsValid() && !_args.GetValue("ignore-sec", false))
+        {
+            Console.WriteLine("Program corrupted!");
+            Environment.Exit(1);            
+        }
+        
         var gitlabAuth = storageData.Get<GitlabAuthorization>();
         if (gitlabAuth.IsValid())
         {   

@@ -37,5 +37,6 @@ public static class ApplicationExtensions
         services.AddTransient<IInstallVoicemod, InstallVoicemod>();
 
         services.AddTransient<IInternalSetVersion, InternalSetVersion>();
+        services.AddTransient<IInternalSetSecrets, InternalSetSecrets>();
     }
 }

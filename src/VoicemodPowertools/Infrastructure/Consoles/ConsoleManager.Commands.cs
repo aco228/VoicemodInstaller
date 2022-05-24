@@ -163,10 +163,8 @@ public partial class ConsoleManager : ConsoleManagerBase
                 HideFromHelp = true,
                 Commands = new()
                 {
-                    new()
-                    {
-                        Command = "--set-version", Application = typeof(IInternalSetVersion)
-                    }
+                    new(){Command = "--set-version", Application = typeof(IInternalSetVersion)},
+                    new(){Command = "--set-secrets", Application = typeof(IInternalSetSecrets)},
                 }
             },
         };

@@ -55,17 +55,6 @@ static class Program
     private static void RegisterSecrets(bool isDevelopment, IServiceProvider provider)
     {
         var secretsService = provider.GetService<IGitlabSecretsService>();
-        if (!isDevelopment)
-        {
-            var s = secretsService.Get();
-            if (!s.IsValid())
-            {
-                Console.WriteLine("Error with SConfiguraion. App will close");
-                Environment.Exit(1);
-                return;
-            }
-        }
-        
         var configuration = provider.GetService<IConfiguration>();
         var clientId = configuration.GetValue<string>("GitlabApplicationId");
         var clientSecret = configuration.GetValue<string>("GitlabApplicationSecret");
