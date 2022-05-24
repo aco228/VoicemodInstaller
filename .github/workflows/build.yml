@@ -14,6 +14,12 @@ jobs:
     steps:
     - name: Checkout source code
       uses: actions/checkout@v2
+
+    - name: test script
+      uses: actions/github-script@v6
+      with:
+        script: |
+            console.log('test test');
     
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
@@ -28,12 +34,17 @@ jobs:
       working-directory: src/VoicemodPowertools
       run: dotnet build -c release --no-restore
       
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.2
+    - uses: papeloto/action-zip@v1
       with:
-        # Artifact name
-        name: VoicemodPowertools #.zip will be added automatically
-        path: src/VoicemodPowertools/bin/release/net6.0/*.*
+        files: src/VoicemodPowertools/bin/release/net6.0/
+        recursive: false
+        dest: result.zip
+      
+    #- name: Upload a Build Artifact
+    #  uses: actions/upload-artifact@v3
+    #  with:
+    #    name: VoicemodPowertools #.zip will be added automatically
+    #    path: src/VoicemodPowertools/bin/release/net6.0/*.*
 
     - name: Create release
       uses: actions/create-release@v1
@@ -52,7 +63,7 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: .src/VoicemodPowertools/bin/release/net6.0/VoicemodPowertools.zip
-        asset_name: VoicemodPowertools.zip
+        asset_path: ./
+        asset_name: result.zip
         asset_content_type: application/zip
 
