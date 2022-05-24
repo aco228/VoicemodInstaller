@@ -18,7 +18,10 @@ public static class ConsoleArgumentsExtensions
             if (argSplit.Length == 1 && typeof(T) == typeof(bool)) 
                 return (T)(object)true;
             
-            if(argSplit.Length != 2) continue;
+            if (argSplit.Length != 2) continue;
+
+            if (string.IsNullOrEmpty(argSplit[1]))
+                return (T) defaultReturn;
 
             return (T)Convert.ChangeType(argSplit[1].Trim(), typeof(T));
 
