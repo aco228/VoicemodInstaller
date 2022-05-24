@@ -4,6 +4,8 @@ namespace VoicemodPowertools.Services.Storage;
 
 public interface IStorageHandler
 {
+    delegate void OnStorageChange();
+    event OnStorageChange StateHasChanges;  
     bool StorageExists();
     T? Get<T>() where T : StorageEntryBase;
     void Save<T>(T enty) where T : StorageEntryBase;

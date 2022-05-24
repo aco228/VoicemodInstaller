@@ -8,6 +8,8 @@ public class StorageHandler : IStorageHandler
     private readonly string STORAGE_NAME = "st.rg";
     private static StorageData _storage = null;
 
+    public event IStorageHandler.OnStorageChange? StateHasChanges;
+    
     public bool StorageExists() => File.Exists(STORAGE_NAME);
     
     public T? Get<T>() where T : StorageEntryBase
@@ -21,6 +23,7 @@ public class StorageHandler : IStorageHandler
         var storage = GetCurrent();
         storage.Add<T>(enty);
         Save(storage);
+        StateHasChanges?.Invoke();
     }
     
     public StorageData GetCurrent()

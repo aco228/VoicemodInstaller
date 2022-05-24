@@ -14,12 +14,23 @@ public class GitlabHttpClient : RequestClient, IGitlabHttpClient
         IConfiguration configuration)
     {
         _storageHandler = storageHandler;
+        _storageHandler.StateHasChanges += StorageHandlerOnStateHasChanges;
 
         LoadToken();
         SetBaseString(configuration.GetValue<string>("GitlabApiBaseUrl"));
     }
 
-    public void LoadToken()
+    private void StorageHandlerOnStateHasChanges()
+    {
+        LoadToken();
+    }
+
+    protected override void OnDispose()
+    {
+        _storageHandler.StateHasChanges -= StorageHandlerOnStateHasChanges;
+    }
+
+    private void LoadToken()
     {
         var storage = _storageHandler.Get<GitlabAuthorization>();
         if (!storage.IsTokenValid())
@@ -27,4 +38,5 @@ public class GitlabHttpClient : RequestClient, IGitlabHttpClient
         
         AddAuthorization(storage.Token);
     }
+    
 }

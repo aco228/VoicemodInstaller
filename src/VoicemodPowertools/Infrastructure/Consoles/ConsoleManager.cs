@@ -64,6 +64,7 @@ public partial class ConsoleManager : ConsoleManagerBase
         }
 
         await service.Execute(args);
+        Console.WriteLine();
     }
 
 }

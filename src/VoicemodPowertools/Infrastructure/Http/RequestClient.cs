@@ -17,9 +17,12 @@ public class RequestClient : IRequestClient, IDisposable
     {
         BaseUrl = baseUrl;
     }
+    
+    protected virtual void OnDispose(){}
 
     public void Dispose()
     {
+        OnDispose();
         _client?.Dispose();
     }
 

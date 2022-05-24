@@ -1,4 +1,5 @@
 using VoicemodPowertools.Domain.Gitlab.Jobs;
+using VoicemodPowertools.Infrastructure;
 using VoicemodPowertools.Infrastructure.Consoles;
 using VoicemodPowertools.Services.Application.DownloadsConsole;
 using VoicemodPowertools.Services.Gitlab;
@@ -33,8 +34,7 @@ public class DownloadVersion : IDownloadVersion
             if (args.Length >= 1 && long.TryParse(args[0], out var jobId))
                 job = await _jobService.GetProjectJob(projectId, jobId);
             else
-                await foreach (var ejob in _jobService.GetJobs(projectId, 1, args.GetValue("develop", false)))
-                    job = ejob;
+                job = await _jobService.GetJobs(projectId, 1, args.GetValue("develop", false)).FirstOrDefault();
 
             job.Print();
             if (new DirectoryInfo($"Downloads/{job.Id}").Exists

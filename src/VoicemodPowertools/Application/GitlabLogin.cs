@@ -1,4 +1,5 @@
 ﻿using VoicemodPowertools.Domain.Storage.Entries;
+using VoicemodPowertools.Infrastructure;
 using VoicemodPowertools.Infrastructure.Consoles;
 using VoicemodPowertools.Services.Application;
 using VoicemodPowertools.Services.Gitlab;
@@ -11,65 +12,52 @@ public class GitlabLogin : IGitlabLogin
     private readonly IGitlabAuthorizationService _authorizationService;
     private readonly IGitlabUserService _gitlabUserService;
     private readonly IStorageHandler _storageHandler;
+    private readonly IGitlabJobService _jobService;
+    private readonly IGitlabSecretsService _gitlabSecrets;
     
     public GitlabLogin(
         IGitlabAuthorizationService authorizationService,
         IGitlabUserService userService,
-        IStorageHandler storageHandler)
+        IStorageHandler storageHandler,
+        IGitlabJobService gitlabJobService,
+        IGitlabSecretsService gitlabSecretsService)
     {
         _authorizationService = authorizationService;
         _gitlabUserService = userService;
         _storageHandler = storageHandler;
+        _jobService = gitlabJobService;
+        _gitlabSecrets = gitlabSecretsService;
     }
     
     public async Task PerformLogin(string code, string state)
     {
-        var gitlabAuthorization = await GetToken(code);
-        if (gitlabAuthorization == null)
-            return;
-
-        await GetUser(gitlabAuthorization);
-        Console.WriteLine();
-    }
-
-    private async Task<GitlabAuthorization?> GetToken(string code)
-    {
+        var authorization = new GitlabAuthorization();
         try
         {
             var response = await _authorizationService.GetToken(code);
-            var gitlabAuthorization = new GitlabAuthorization
-            {
-                Token = response.AccessToken,
-                RefreshToken = response.RefreshToken
-            };
-
+            authorization.Token = response.AccessToken;
+            authorization.RefreshToken = response.RefreshToken;
+            _storageHandler.Save(authorization);
             Console.WriteLine("Received token: " + response.AccessToken);
-            _storageHandler.Save(gitlabAuthorization);
-            return gitlabAuthorization;
+            
+            var user = await _gitlabUserService.GetUser();
+            authorization.Username = user.Username;
+            Console.WriteLine($"Logged in as {user.Username}");
+
+            // TODO: Make better
+            Console.WriteLine($"Checking access to Voicemod...");
+            await _jobService.GetJobs(_gitlabSecrets.Get().ProjectId, 1, false).FirstOrDefault();
+            Console.WriteLine($"You have access to Voicemod. That is great news :)");
         }
         catch (Exception ex)
         {
             Console.WriteLine("Error retrieving token");
-            return null;
-        }
-    }
-
-    private async Task GetUser(GitlabAuthorization auth)
-    {
-        try
-        {
-            var user = await _gitlabUserService.GetUser();
-            auth.Username = user.Username;
-            Console.WriteLine($"Logged in as {user.Username}");
-        }
-        catch (Exception ex)
-        {
-            auth.EmptyData();
-            Console.WriteLine($"Error getting user data");
+            authorization.EmptyData();
         }
         finally
         {
-            _storageHandler.Save(auth);
+            _storageHandler.Save(authorization);
+            Console.WriteLine();
         }
     }
 }

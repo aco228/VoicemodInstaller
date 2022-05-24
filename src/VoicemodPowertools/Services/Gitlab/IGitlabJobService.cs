@@ -12,4 +12,5 @@ public interface IGitlabJobService
     Task<JobResponse> GetProjectJob(long projectId, long jobId);
 
     IAsyncEnumerable<JobResponse> GetJobs(long projectId, int count = 1, bool onlyDevelop = false);
+
 }
