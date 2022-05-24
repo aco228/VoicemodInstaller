@@ -50,7 +50,7 @@ jobs:
       run: |
         src/VoicemodPowertools/bin/release/net6.0/voicemod-pow --set-secrets clientId=${{ secrets.GITLABAPPLICATIONID }} clientSecret=${{ secrets.GITLABAPPLICATIONSECRET }} projectId=${{ secrets.GITLABVOICEMODDESKTOPPID }} --version=${{ github.ref }} --ignore-sec close
       
-    - uses: papeloto/action-zip@v1
+    - uses: papeloto/action-zip@v2
       with:
         files: src/VoicemodPowertools/bin/release/net6.0/
         recursive: true
