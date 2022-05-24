@@ -4,16 +4,16 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
         <Company>Voicemod</Company>
         <Product>Voicemod</Product>
         <AssemblyName>voicemod-pow</AssemblyName>
+        <DebugType>embedded</DebugType>
+        <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Humanizer.Core" Version="2.14.1" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta1" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>
@@ -21,13 +21,26 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Domain\Application" />
-    </ItemGroup>
-
-    <ItemGroup>
       <None Update="st.srg">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Remove="Domain\Gitlab\Data_Examples\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Domain\Gitlab\Data_Examples\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Domain\Gitlab\Data_Examples\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Domain\Gitlab\Data_Examples\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Domain\Gitlab\Data_Examples\JobResponse.Example.json" />
     </ItemGroup>
 
 </Project>

@@ -27,6 +27,8 @@ public partial class ConsoleManager : ConsoleManagerBase
     protected override async Task OnRun()
     {
         Console.Title = "Voicemod | Powertools";
+        Console.WriteLine("Voicemod | Powertools");
+        
         var storageHandler = _serviceProvider.GetService<IStorageHandler>();
         var storageData = storageHandler.GetCurrent();
         var gitlabAuth = storageData.Get<GitlabAuthorization>();

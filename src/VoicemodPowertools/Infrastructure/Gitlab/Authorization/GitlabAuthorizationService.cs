@@ -27,7 +27,7 @@ public class GitlabAuthorizationService : IGitlabAuthorizationService
     {
         var gitlabBaseUrl = _configuration.GetValue<string>("GitlabBaseUrl");
         var scopes = "api";
-        var endpoint = _configuration.GetSection("Kestrel:Endpoints:Https").GetValue<string>("Url");
+        var endpoint = _configuration.GetSection("Kestrel:Endpoints:Http").GetValue<string>("Url");
         var codeVerifier = "ks02i3jdikdo2k0dkfodf3m39rjfjsdk0wk349rj3jrhf".Base64Encode();
         
         return gitlabBaseUrl + _configuration.GetValue<string>("GitlabRedirect")
@@ -41,7 +41,7 @@ public class GitlabAuthorizationService : IGitlabAuthorizationService
     public Task<GitlabTokenResponse> GetToken(string receivedCode)
     {
         var gitlabBaseUrl = _configuration.GetValue<string>("GitlabBaseUrl");
-        var endpoint = _configuration.GetSection("Kestrel:Endpoints:Https").GetValue<string>("Url");
+        var endpoint = _configuration.GetSection("Kestrel:Endpoints:Http").GetValue<string>("Url");
         
         var request = new GitlabTokenRequest
         {
@@ -57,7 +57,7 @@ public class GitlabAuthorizationService : IGitlabAuthorizationService
     public Task<GitlabTokenResponse> RefreshToken(string refreshToken)
     {
         var gitlabBaseUrl = _configuration.GetValue<string>("GitlabBaseUrl");
-        var endpoint = _configuration.GetSection("Kestrel:Endpoints:Https").GetValue<string>("Url");
+        var endpoint = _configuration.GetSection("Kestrel:Endpoints:Http").GetValue<string>("Url");
         
         var request = new GitlabRefreshTokenRequest
         {

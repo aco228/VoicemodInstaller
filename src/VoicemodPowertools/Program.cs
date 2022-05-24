@@ -47,7 +47,7 @@ static class Program
     private static void InitializeServer(WebApplication app)
     {
         if (app.Environment.IsDevelopment()) { }
-        app.UseHttpsRedirection();
+        // app.UseHttpsRedirection();
         app.MapControllers();
         app.Run();
     }
