@@ -37,7 +37,7 @@ public partial class ConsoleManager : ConsoleManagerBase
         var storageData = storageHandler.GetCurrent();
 
         var gitlabSecrets = storageHandler.Get<GitlabSecrets>();
-        if (!gitlabSecrets.IsValid() && !_args.GetValue("ignore-sec", false))
+        if (!gitlabSecrets.IsValid() && !_args.GetValue(ProgramConstants.IgnoreAttribute, false))
         {
             Console.WriteLine("Program corrupted!");
             Environment.Exit(1);            
