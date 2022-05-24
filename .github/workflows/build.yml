@@ -54,7 +54,7 @@ jobs:
         draft: false
         prerelease: false
         release_name: ${{ steps.version.outputs.version }}
-        tag_name: v.1.0.10 #${{ github.ref }}
+        tag_name: v.1.0.11 #${{ github.ref }}
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
@@ -64,7 +64,7 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./
+        asset_path: ./result.zip
         asset_name: result.zip
         asset_content_type: application/zip
 
