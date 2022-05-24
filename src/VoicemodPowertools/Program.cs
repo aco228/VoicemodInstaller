@@ -1,7 +1,9 @@
 using VoicemodPowertools.Application;
+using VoicemodPowertools.Domain;
 using VoicemodPowertools.Domain.Installation;
 using VoicemodPowertools.Domain.Storage;
 using VoicemodPowertools.Domain.Storage.Entries;
+using VoicemodPowertools.Infrastructure.Consoles;
 using VoicemodPowertools.Infrastructure.Gitlab;
 using VoicemodPowertools.Infrastructure.Http;
 using VoicemodPowertools.Infrastructure.Storage;
@@ -22,11 +24,9 @@ static class Program
         var app = builder.Build();
 
         RegisterSecrets(app.Environment.IsDevelopment(), app.Services);
-        
-        new Thread(() =>
-        {
-            InitializeServer(app);
-        }).Start();
+
+        if (!args.GetValue(ProgramConstants.IgnoreAttribute, false))
+            new Thread(() => InitializeServer(app)).Start();
         
         Thread.Sleep(250);
         var consoleManager = new ConsoleManager(args, app.Services);
