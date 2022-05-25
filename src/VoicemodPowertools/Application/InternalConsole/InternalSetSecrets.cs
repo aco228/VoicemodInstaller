@@ -50,6 +50,8 @@ public class InternalSetSecrets : IInternalSetSecrets
             
             Console.WriteLine($"Version set to ${version}");
             _storageHandler.Save(internalApplication);
+            
+            Thread.Sleep(3500);
 
             if (File.Exists(ProgramConstants.SecretsFile))
             {
