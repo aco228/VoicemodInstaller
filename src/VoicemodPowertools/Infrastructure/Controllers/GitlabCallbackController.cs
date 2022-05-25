@@ -17,6 +17,6 @@ public class GitlabCallbackController : ControllerBase
     public async Task<IActionResult> Index(string code, string state)
     {
         await _gitlabLogin.PerformLogin(code, state);
-        return Content("");
+        return Content("Redirection completed, now go back to console application :)");
     }
 }

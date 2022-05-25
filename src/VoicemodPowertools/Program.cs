@@ -35,6 +35,7 @@ static class Program
     
     private static void RegisterServices(IServiceCollection services)
     {
+        services.AddTransient<ICryptionService, CryptionService>();
         services.AddTransient<IRequestClient, RequestClient>();
         services.AddTransient<IStorageFileManager, StorageFileManager>();
         services.AddSingleton<IGeneralStorageService, GeneralStorageService>();

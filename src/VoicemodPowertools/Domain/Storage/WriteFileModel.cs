@@ -1,11 +1,11 @@
 using Newtonsoft.Json;
 
-namespace VoicemodPowertools.Domain.Storage.Encryption;
+namespace VoicemodPowertools.Domain.Storage;
 
 [Serializable]
-public class EncryptionFile
+public class WriteFileModel
 {
-    [JsonProperty("sh")]
+    [JsonProperty("s")]
     public string Sha { get; set; }
     
     [JsonProperty("fc")]
