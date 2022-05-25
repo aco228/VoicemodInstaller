@@ -7,8 +7,8 @@ public static class ProgramConstants
 
     public static class FileLocations
     {
-        public static string GeneralStorageFile = "gsf.rg";
-        public static string GitlabSecretsFile = "gs.srg";
-        public static string ApplicationSecretsFile = "ap.srg";
+        public static string GeneralStorageFile = "state-gs.rg";
+        public static string GitlabSecretsFile = "state-gl.rg";
+        public static string ApplicationSecretsFile = "state-app.rg";
     }
 }

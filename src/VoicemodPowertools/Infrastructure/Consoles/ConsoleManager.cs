@@ -33,7 +33,8 @@ public partial class ConsoleManager : ConsoleManagerBase
         var storageService = _serviceProvider.GetService<IGeneralStorageService>();
         var fileManager = _serviceProvider.GetService<IStorageFileManager>();
         var storageData = storageService.GetCurrent();
-
+        // storageData.Print();
+        
         var gitlabSecrets = fileManager.Read<GitlabSecrets>(ProgramConstants.FileLocations.GitlabSecretsFile);
         if (!gitlabSecrets.IsValid() && !_args.GetValue(ProgramConstants.IgnoreAttribute, false))
         {

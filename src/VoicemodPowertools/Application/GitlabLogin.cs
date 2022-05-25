@@ -51,11 +51,11 @@ public class GitlabLogin : IGitlabLogin
         catch (Exception ex)
         {
             Console.WriteLine($"Error retrieving token {ex}");
-            _gitlabAuthorization.Clear();
+            authorization.EmptyData();
         }
         finally
         {
-            Console.WriteLine();
+            _gitlabAuthorization.Save(authorization);
         }
     }
 }

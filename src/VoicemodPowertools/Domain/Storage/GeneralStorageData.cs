@@ -6,6 +6,7 @@ public interface IGeneralStorageData
 {
     T? Get<T>();
     void Add<T>(T entry);
+    void Print();
 }
 
 [Serializable]
@@ -31,5 +32,14 @@ public class GeneralStorageData : IGeneralStorageData
             Data[key] = entry;
         else
             Data.Add(key, entry);
+    }
+
+    public void Print()
+    {
+        Console.WriteLine("Storage data entries");
+        foreach (var entry in Data)
+        {
+            Console.WriteLine($"\t{entry.Key}");
+        }
     }
 }
