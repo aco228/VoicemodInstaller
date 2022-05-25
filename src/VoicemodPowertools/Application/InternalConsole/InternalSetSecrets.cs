@@ -53,9 +53,10 @@ public class InternalSetSecrets : IInternalSetSecrets
             
             Thread.Sleep(3500);
 
-            if (File.Exists(ProgramConstants.SecretsFile))
+            var file = new FileInfo(ProgramConstants.SecretsFile);
+            if (file.Exists)
             {
-                Console.WriteLine("FILE EXISTS");
+                Console.WriteLine($"FILE EXISTS {file.FullName}");
             }
             
             Environment.Exit(0);
