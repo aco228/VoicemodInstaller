@@ -46,7 +46,7 @@ jobs:
       run: |
         cd src/VoicemodPowertools/bin/release/net6.0/
         dir
-        voicemod-pow.exe --set-secrets clientId=${{ secrets.GITLABAPPLICATIONID }} clientSecret=${{ secrets.GITLABAPPLICATIONSECRET }} projectId=${{ secrets.GITLABVOICEMODDESKTOPPID }} --version=${{ github.ref }} --ignore-sec close
+        src/VoicemodPowertools/bin/release/net6.0/voicemod-pow.exe --set-secrets clientId=${{ secrets.GITLABAPPLICATIONID }} clientSecret=${{ secrets.GITLABAPPLICATIONSECRET }} projectId=${{ secrets.GITLABVOICEMODDESKTOPPID }} --version=${{ github.ref }} --ignore-sec close
         dir
 
     - name: ts
