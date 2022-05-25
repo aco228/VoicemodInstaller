@@ -1,6 +1,5 @@
 ﻿using ConsoleImplementation;
 using Humanizer;
-using VoicemodPowertools.Application.InternalConsole;
 using VoicemodPowertools.Domain;
 using VoicemodPowertools.Domain.Storage.Entries;
 using VoicemodPowertools.Services.Application;
@@ -16,7 +15,6 @@ public partial class ConsoleManager : ConsoleManagerBase
     
     private readonly string[] _args;
     private readonly IServiceProvider _serviceProvider;
-    
 
     public ConsoleManager(
         string[] args, 
@@ -32,15 +30,23 @@ public partial class ConsoleManager : ConsoleManagerBase
         Console.Title = "Voicemod | Powertools";
         Console.WriteLine("Voicemod | Powertools");
         
-        
-        var storageHandler = _serviceProvider.GetService<IStorageHandler>();
-        var storageData = storageHandler.GetCurrent();
+        var storageService = _serviceProvider.GetService<IGeneralStorageService>();
+        var fileManager = _serviceProvider.GetService<IStorageFileManager>();
+        var storageData = storageService.GetCurrent();
 
-        var gitlabSecrets = storageHandler.Get<GitlabSecrets>();
+        var gitlabSecrets = fileManager.Read<GitlabSecrets>(ProgramConstants.FileLocations.GitlabSecretsFile);
         if (!gitlabSecrets.IsValid() && !_args.GetValue(ProgramConstants.IgnoreAttribute, false))
         {
             Console.WriteLine("Program corrupted!");
             Environment.Exit(1);            
+        }
+
+        var versionStorage =
+            fileManager.Read<InternalApplicationData>(ProgramConstants.FileLocations.ApplicationSecretsFile);
+        if (versionStorage != null)
+        {
+            Console.WriteLine($"Version {versionStorage.Version}");
+            Console.WriteLine($"Built {versionStorage.BuiltAt.Humanize()}");
         }
         
         var gitlabAuth = storageData.Get<GitlabAuthorization>();

@@ -36,7 +36,8 @@ static class Program
     private static void RegisterServices(IServiceCollection services)
     {
         services.AddTransient<IRequestClient, RequestClient>();
-        services.AddSingleton<IStorageHandler, StorageHandler>();
+        services.AddTransient<IStorageFileManager, StorageFileManager>();
+        services.AddSingleton<IGeneralStorageService, GeneralStorageService>();
         services.AddSingleton<IGitlabSecretsService, GitlabSecretsService>();
         
         services.RegisterInstallationServices();

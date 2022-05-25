@@ -8,20 +8,20 @@ namespace VoicemodPowertools.Application.GitlabConsole;
 
 public class GitlabLogout : IGitlabLogout
 {
-    private readonly IStorageHandler _storageHandler;
+    private readonly IGitlabAuthorization _gitlabAuthorization;
     private readonly IGitlabAuthorizationService _authorizationService;
     
     public GitlabLogout(
-        IStorageHandler storageHandler,
+        IGitlabAuthorization gitlabAuthorization,
         IGitlabAuthorizationService authorizationService)
     {
         _authorizationService = authorizationService;
-        _storageHandler = storageHandler;
+        _gitlabAuthorization = gitlabAuthorization;
     }
     
     public async Task Execute(string[] args)
     {
-        var auth = _storageHandler.Get<GitlabAuthorization>();
+        var auth = _gitlabAuthorization.GetCurrent();
         if (!auth.IsValid())
         {
             Console.WriteLine("You are not logged in currently");
@@ -31,8 +31,7 @@ public class GitlabLogout : IGitlabLogout
         try
         {
             await _authorizationService.RevokeToken(auth.Token);
-            auth.EmptyData();
-            _storageHandler.Save(auth);
+            _gitlabAuthorization.Clear();
             Console.WriteLine("You logged out");
         }
         catch (RequestException ex)

@@ -21,7 +21,6 @@ public static class ApplicationExtensions
     {
         services.AddTransient<IGitlabLogin, GitlabLogin>();
         services.AddTransient<IGitlabRefreshToken, GitlabRefreshToken>();
-        services.AddTransient<IGitlabAuthorization, GitlabAuthorizationProvider>();
 
         services.AddTransient<IConsoleHelp, ConsoleHelp>();
         services.AddTransient<ICloseApplication, CloseApplication>();

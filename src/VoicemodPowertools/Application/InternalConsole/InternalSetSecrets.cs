@@ -8,11 +8,11 @@ namespace VoicemodPowertools.Application.InternalConsole;
 
 public class InternalSetSecrets : IInternalSetSecrets
 {
-    private readonly IStorageHandler _storageHandler;
+    private readonly IStorageFileManager _fileManager;
 
-    public InternalSetSecrets(IStorageHandler storageHandler)
+    public InternalSetSecrets(IStorageFileManager storageFileManager)
     {
-        _storageHandler = storageHandler;
+        _fileManager = storageFileManager;
     }
     
     public async Task Execute(string[] args)
@@ -40,7 +40,7 @@ public class InternalSetSecrets : IInternalSetSecrets
             }
 
             gitlabSecrets.Print();
-            _storageHandler.Save(gitlabSecrets);
+            _fileManager.Write(ProgramConstants.FileLocations.GitlabSecretsFile, gitlabSecrets);
 
             var internalApplication = new InternalApplicationData
             {
@@ -49,11 +49,11 @@ public class InternalSetSecrets : IInternalSetSecrets
             };
             
             Console.WriteLine($"Version set to ${version}");
-            _storageHandler.Save(internalApplication);
+            _fileManager.Write(ProgramConstants.FileLocations.ApplicationSecretsFile, internalApplication);
             
             Thread.Sleep(3500);
 
-            var file = new FileInfo(ProgramConstants.SecretsFile);
+            var file = new FileInfo(ProgramConstants.FileLocations.ApplicationSecretsFile);
             if (file.Exists)
             {
                 Console.WriteLine($"FILE EXISTS {file.FullName}");

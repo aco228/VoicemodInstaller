@@ -20,7 +20,7 @@ public class GitlabRefreshToken : IGitlabRefreshToken
     
     public async Task RefreshToken()
     {
-        var auth = _authorization.GetAuthorization();
+        var auth = _authorization.GetCurrent();
         if (!auth.IsValid())
         {
             Console.WriteLine("Cannot refresh when user is not logged in");

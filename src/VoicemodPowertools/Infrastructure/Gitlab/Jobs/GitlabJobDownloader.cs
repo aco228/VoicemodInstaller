@@ -35,7 +35,7 @@ public class GitlabJobDownloader : IGitlabJobDownloader
             var gitlabBaseUrl = _configuration.GetValue<string>("GitlabApiBaseUrl");
             var uri = new Uri(
                 $"{gitlabBaseUrl}projects/{_gitlabSecrets.Get().ProjectId}/jobs/{request.JobId}/artifacts");
-            client.Headers.Add("Authorization", $"Bearer {_gitlabAuthorization.GetAuthorization().Token}");
+            client.Headers.Add("Authorization", $"Bearer {_gitlabAuthorization.GetCurrent().Token}");
             client.DownloadProgressChanged += (sender, args) =>
             {
                 Console.Write("\r     -->    {0}%.", args.ProgressPercentage);
