@@ -1,5 +1,7 @@
+using System.Text.RegularExpressions;
 using VoicemodPowertools.Domain;
 using VoicemodPowertools.Domain.Storage.Entries;
+using VoicemodPowertools.Infrastructure;
 using VoicemodPowertools.Infrastructure.Consoles;
 using VoicemodPowertools.Services.Application.InternalConsole;
 using VoicemodPowertools.Services.Storage;
@@ -31,8 +33,8 @@ public class InternalSetSecrets : IInternalSetSecrets
                 Console.WriteLine("No secrets offered");
                 Environment.Exit(1);
             }
-            
-            var version = args.GetValue("version", string.Empty);
+
+            var version = args.GetValue("version", string.Empty).GetVersion();
             if (string.IsNullOrEmpty(version))
             {
                 Console.WriteLine("No version offered");
@@ -72,4 +74,5 @@ public class InternalSetSecrets : IInternalSetSecrets
             Console.WriteLine($"Exception {ex}");
         }
     }
+
 }

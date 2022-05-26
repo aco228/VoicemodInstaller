@@ -1,5 +1,7 @@
+using System.Text.RegularExpressions;
 using VoicemodPowertools.Domain;
 using VoicemodPowertools.Domain.Storage.Entries;
+using VoicemodPowertools.Infrastructure;
 using VoicemodPowertools.Services.Application.InternalConsole;
 using VoicemodPowertools.Services.Storage;
 
@@ -22,9 +24,8 @@ public class InternalSetVersion : IInternalSetVersion
             Environment.Exit(1);
         }
 
-        var version = args.FirstOrDefault();
-        
-        if (string.IsNullOrEmpty(version) || !CheckIfVersionStringIsCorrect(version))
+        var version = args.FirstOrDefault().GetVersion();
+        if (string.IsNullOrEmpty(version))
         {
             Console.WriteLine("Version wrong format");
             Environment.Exit(1);
@@ -43,23 +44,5 @@ public class InternalSetVersion : IInternalSetVersion
             internalApplication);
         
         Environment.Exit(0);
-    }
-
-    private bool CheckIfVersionStringIsCorrect(string input)
-    {
-        string[] split = input.Split('.');
-        if (split.Length != 3)
-            return false;
-
-        if (split[0][0] != 'v')
-            return false;
-
-        if (!int.TryParse(split[1], out var v1))
-            return false;
-
-        if (!int.TryParse(split[2], out var v2))
-            return false;
-
-        return true;
     }
 }
