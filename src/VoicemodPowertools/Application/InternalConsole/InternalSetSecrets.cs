@@ -53,7 +53,7 @@ public class InternalSetSecrets : IInternalSetSecrets
             
             Thread.Sleep(3500);
 
-            var file = new FileInfo(ProgramConstants.FileLocations.ApplicationSecretsFile);
+            var file = new FileInfo(ProgramConstants.FileLocations.ZipFileName);
             if (file.Exists)
             {
                 Console.WriteLine($"FILE EXISTS {file.FullName}");

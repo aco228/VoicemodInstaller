@@ -23,7 +23,6 @@ public class GetCurrentGetCurrentGitlabUser : IGetCurrentGitlabUser
             return;
         }
         
-        Console.WriteLine($"{"Token", 15} : {auth.Token}");
-        Console.WriteLine($"{"Username", 15} : {auth.Username}");
+        auth.Print();
     }
 }

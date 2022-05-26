@@ -15,6 +15,9 @@ namespace VoicemodPowertools;
 
 static class Program
 {
+    private static bool _isDebug = false;
+    public static bool OnDebug { get => _isDebug; }
+    
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
@@ -25,16 +28,20 @@ static class Program
 
         RegisterSecrets(app.Environment.IsDevelopment(), app.Services);
 
+        _isDebug = args.GetValue("debug", false);
+        
+
         if (!args.GetValue(ProgramConstants.IgnoreAttribute, false))
             new Thread(() => InitializeServer(app)).Start();
         
-        Thread.Sleep(250);
+        Thread.Sleep(150);
         var consoleManager = new ConsoleManager(args, app.Services);
         consoleManager.Run();
     }
     
     private static void RegisterServices(IServiceCollection services)
     {
+        services.AddTransient<IZipStorage, ZipStorage>();
         services.AddTransient<ICryptionService, CryptionService>();
         services.AddTransient<IRequestClient, RequestClient>();
         services.AddTransient<IStorageFileManager, StorageFileManager>();

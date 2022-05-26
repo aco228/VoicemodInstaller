@@ -31,7 +31,6 @@ public class GeneralStorageService : IGeneralStorageService
         return storage.Get<T>();
     }
     
-    
     public void Save<T>(T enty)
     {
         var storage = GetCurrent();
