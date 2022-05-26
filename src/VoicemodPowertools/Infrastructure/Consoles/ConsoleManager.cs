@@ -35,19 +35,25 @@ public partial class ConsoleManager : ConsoleManagerBase
         var storageData = storageService.GetCurrent();
         // storageData.Print();
         
-        var gitlabSecrets = fileManager.Read<GitlabSecrets>(ProgramConstants.FileLocations.GitlabSecretsFile);
+        var gitlabSecrets = fileManager.Read<GitlabSecrets>(
+            ProgramConstants.FileLocations.Zip.Application,
+            ProgramConstants.FileLocations.GitlabSecretsFile);
+        
         if (!gitlabSecrets.IsValid() && !_args.GetValue(ProgramConstants.IgnoreAttribute, false))
         {
             Console.WriteLine("Program corrupted!");
             Environment.Exit(1);            
         }
 
-        var versionStorage =
-            fileManager.Read<InternalApplicationData>(ProgramConstants.FileLocations.ApplicationSecretsFile);
+        var versionStorage = fileManager.Read<InternalApplicationData>(
+            ProgramConstants.FileLocations.Zip.Application,
+            ProgramConstants.FileLocations.ApplicationSecretsFile);
+        
         if (versionStorage != null)
         {
-            Console.WriteLine($"Version {versionStorage.Version}");
-            Console.WriteLine($"Built {versionStorage.BuiltAt.Humanize()}");
+            Console.Write($"Version {versionStorage.Version}");
+            Console.Write($" (Built {versionStorage.BuiltAt.Humanize()})");
+            Console.WriteLine();
         }
         
         var gitlabAuth = storageData.Get<GitlabAuthorization>();
@@ -56,7 +62,7 @@ public partial class ConsoleManager : ConsoleManagerBase
             var refreshToken = _serviceProvider.GetService<IGitlabRefreshToken>();
             await refreshToken.RefreshToken();
             
-            Console.WriteLine($"Authenticated as {gitlabAuth.Username}");
+            Console.WriteLine($"\tAuthenticated as {gitlabAuth.Username}");
             Console.WriteLine();
         }
 
@@ -89,7 +95,6 @@ public partial class ConsoleManager : ConsoleManagerBase
         }
 
         await service.Execute(args);
-        Console.WriteLine();
     }
 
 }

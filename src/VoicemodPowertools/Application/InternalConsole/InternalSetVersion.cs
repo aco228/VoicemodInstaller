@@ -37,7 +37,10 @@ public class InternalSetVersion : IInternalSetVersion
         };
         
         Console.WriteLine($"Version set to ${version}");
-        _storageFile.Write(ProgramConstants.FileLocations.ApplicationSecretsFile, internalApplication);
+        _storageFile.Write(
+            ProgramConstants.FileLocations.Zip.Application,
+            ProgramConstants.FileLocations.ApplicationSecretsFile, 
+            internalApplication);
         
         Environment.Exit(0);
     }

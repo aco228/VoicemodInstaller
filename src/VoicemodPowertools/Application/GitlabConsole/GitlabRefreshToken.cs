@@ -33,8 +33,6 @@ public class GitlabRefreshToken : IGitlabRefreshToken
             auth.Token = newToken.AccessToken;
             auth.RefreshToken = newToken.RefreshToken;
             _authorization.Save(auth);
-
-            Console.WriteLine($"Refresh token: {auth.Token}");
         }
         catch (Exception ex)
         {

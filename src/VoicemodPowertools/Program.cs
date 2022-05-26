@@ -30,7 +30,6 @@ static class Program
 
         _isDebug = args.GetValue("debug", false);
         
-
         if (!args.GetValue(ProgramConstants.IgnoreAttribute, false))
             new Thread(() => InitializeServer(app)).Start();
         

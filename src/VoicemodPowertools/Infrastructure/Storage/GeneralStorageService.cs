@@ -20,7 +20,9 @@ public class GeneralStorageService : IGeneralStorageService
         if (_data != null)
             return _data;
 
-        _data = _fileManager.Read<GeneralStorageData>(ProgramConstants.FileLocations.GeneralStorageFile) 
+        _data = _fileManager.Read<GeneralStorageData>(
+                    ProgramConstants.FileLocations.Zip.General,
+                    ProgramConstants.FileLocations.GeneralStorageFile) 
                 ?? new GeneralStorageData();
         return _data;
     }
@@ -35,7 +37,9 @@ public class GeneralStorageService : IGeneralStorageService
     {
         var storage = GetCurrent();
         storage.Add<T>(enty);
-        _fileManager.Write(ProgramConstants.FileLocations.GeneralStorageFile, storage);
+        _fileManager.Write(
+            ProgramConstants.FileLocations.Zip.General,
+            ProgramConstants.FileLocations.GeneralStorageFile, storage);
     }
     
 }

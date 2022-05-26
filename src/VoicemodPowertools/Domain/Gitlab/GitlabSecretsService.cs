@@ -18,14 +18,19 @@ public class GitlabSecretsService : IGitlabSecretsService
         if (_secrets != null)
             return _secrets;
 
-        _secrets = _fileManager.Read<GitlabSecrets>(ProgramConstants.FileLocations.GitlabSecretsFile);
+        _secrets = _fileManager.Read<GitlabSecrets>(
+            ProgramConstants.FileLocations.Zip.Application,
+            ProgramConstants.FileLocations.GitlabSecretsFile);
+        
         return _secrets;
     }
 
     public void Save(GitlabSecrets secrets)
     {
         _secrets = secrets;
-        _fileManager.Write(ProgramConstants.FileLocations.GitlabSecretsFile, secrets);
+        _fileManager.Write(
+            ProgramConstants.FileLocations.Zip.Application,
+            ProgramConstants.FileLocations.GitlabSecretsFile, secrets);
     }
     
     

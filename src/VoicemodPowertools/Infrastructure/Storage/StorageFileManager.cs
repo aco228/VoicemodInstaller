@@ -19,7 +19,7 @@ public class StorageFileManager : IStorageFileManager
         _zip = zipStorage;
     }
     
-    public void Write<T>(string filePath, T obj) where T : class
+    public void Write<T>(string zipFile, string filePath, T obj) where T : class
     {
         var formatter = new BinaryFormatter();
         using var stream = new MemoryStream();
@@ -42,17 +42,17 @@ public class StorageFileManager : IStorageFileManager
         var binaryFormatter = new BinaryFormatter();
         binaryFormatter.Serialize(memoryStream, encFile);
         
-        _zip.Write(ProgramConstants.FileLocations.ZipFileName, filePath, memoryStream.ToArray());
+        _zip.Write(zipFile, filePath, memoryStream.ToArray());
     }
 
-    public T? Read<T>(string filePath) where T : class
+    public T? Read<T>(string zipFile, string filePath) where T : class
     {
         try
         {
-            // if (!File.Exists(filePath))
-            //     return null;
+            if (!File.Exists(zipFile))
+                return null;
             
-            var encFile = ReadFromBinaryFile<WriteFileModel>(filePath);
+            var encFile = ReadFromBinaryFile<WriteFileModel>(zipFile, filePath);
             if (encFile == null)
             {
                 ConsoleDebug.WriteLine("encFile is null");
@@ -94,9 +94,9 @@ public class StorageFileManager : IStorageFileManager
         return (T)obj;
     }
     
-    private T ReadFromBinaryFile<T>(string filePath)
+    private T ReadFromBinaryFile<T>(string zipFile, string filePath)
     {   
-        var bytes = _zip.Read(ProgramConstants.FileLocations.ZipFileName, filePath);
+        var bytes = _zip.Read(zipFile, filePath);
         if (bytes == null || bytes.Length == 0)
         {
             ConsoleDebug.WriteLine($"zip bytes is null for {filePath}");

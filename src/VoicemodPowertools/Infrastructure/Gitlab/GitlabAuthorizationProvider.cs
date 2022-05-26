@@ -1,9 +1,8 @@
-﻿using VoicemodPowertools.Domain;
-using VoicemodPowertools.Domain.Storage.Entries;
+﻿using VoicemodPowertools.Domain.Storage.Entries;
 using VoicemodPowertools.Services.Gitlab;
 using VoicemodPowertools.Services.Storage;
 
-namespace VoicemodPowertools.Application;
+namespace VoicemodPowertools.Infrastructure.Gitlab;
 
 public class GitlabAuthorizationProvider : IGitlabAuthorization
 {

@@ -40,7 +40,10 @@ public class InternalSetSecrets : IInternalSetSecrets
             }
 
             gitlabSecrets.Print();
-            _fileManager.Write(ProgramConstants.FileLocations.GitlabSecretsFile, gitlabSecrets);
+            _fileManager.Write(
+                ProgramConstants.FileLocations.Zip.Application,
+                ProgramConstants.FileLocations.GitlabSecretsFile, 
+                gitlabSecrets);
 
             var internalApplication = new InternalApplicationData
             {
@@ -49,11 +52,14 @@ public class InternalSetSecrets : IInternalSetSecrets
             };
             
             Console.WriteLine($"Version set to ${version}");
-            _fileManager.Write(ProgramConstants.FileLocations.ApplicationSecretsFile, internalApplication);
+            _fileManager.Write(
+                ProgramConstants.FileLocations.Zip.Application,
+                ProgramConstants.FileLocations.ApplicationSecretsFile, 
+                internalApplication);
             
             Thread.Sleep(3500);
 
-            var file = new FileInfo(ProgramConstants.FileLocations.ZipFileName);
+            var file = new FileInfo(ProgramConstants.FileLocations.Zip.Application);
             if (file.Exists)
             {
                 Console.WriteLine($"FILE EXISTS {file.FullName}");

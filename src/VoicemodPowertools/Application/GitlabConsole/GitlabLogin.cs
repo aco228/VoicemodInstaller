@@ -4,7 +4,7 @@ using VoicemodPowertools.Services.Application;
 using VoicemodPowertools.Services.Gitlab;
 using VoicemodPowertools.Services.Storage;
 
-namespace VoicemodPowertools.Application;
+namespace VoicemodPowertools.Application.GitlabConsole;
 
 public class GitlabLogin : IGitlabLogin
 {
@@ -56,6 +56,7 @@ public class GitlabLogin : IGitlabLogin
         finally
         {
             _gitlabAuthorization.Save(authorization);
+            Console.WriteLine();
         }
     }
 }
