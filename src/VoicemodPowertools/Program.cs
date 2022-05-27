@@ -1,20 +1,28 @@
 using VoicemodPowertools.Application;
+using VoicemodPowertools.Application.Github;
 using VoicemodPowertools.Domain;
 using VoicemodPowertools.Domain.Installation;
 using VoicemodPowertools.Domain.Storage;
 using VoicemodPowertools.Domain.Storage.Entries;
 using VoicemodPowertools.Infrastructure.Consoles;
+using VoicemodPowertools.Infrastructure.Github;
 using VoicemodPowertools.Infrastructure.Gitlab;
 using VoicemodPowertools.Infrastructure.Http;
+using VoicemodPowertools.Infrastructure.InternalStorage;
 using VoicemodPowertools.Infrastructure.Storage;
 using VoicemodPowertools.Services.Http;
+using VoicemodPowertools.Services.InternalStorage;
 using VoicemodPowertools.Services.Storage;
 using ConsoleManager = VoicemodPowertools.Infrastructure.Consoles.ConsoleManager;
+using StorageManager = VoicemodPowertools.Infrastructure.Storage.StorageManager;
 
 namespace VoicemodPowertools;
 
 static class Program
 {
+    private static bool _isDebug = false;
+    public static bool OnDebug { get => _isDebug; }
+    
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
@@ -25,22 +33,35 @@ static class Program
 
         RegisterSecrets(app.Environment.IsDevelopment(), app.Services);
 
-        if (!args.GetValue(ProgramConstants.IgnoreAttribute, false))
-            new Thread(() => InitializeServer(app)).Start();
+        _isDebug = args.GetValue("debug", false);
+        #if DEBUG
+        _isDebug = true;
+        #endif
         
-        Thread.Sleep(250);
+        if (!args.GetValue(ProgramConstants.IgnoreAttribute, false))
+        {
+            new Thread(() => InitializeServer(app)).Start();
+            new Thread( () =>  app.Services.GetService<ICheckForNewRelease>().Run()).Start();
+        }
+
+        Thread.Sleep(150);
         var consoleManager = new ConsoleManager(args, app.Services);
         consoleManager.Run();
     }
     
     private static void RegisterServices(IServiceCollection services)
     {
+        services.AddTransient<IDownloadClient, DownloadClient>();
+        services.AddTransient<IZipStorage, ZipStorage>();
+        services.AddTransient<ICryptionService, CryptionService>();
         services.AddTransient<IRequestClient, RequestClient>();
-        services.AddSingleton<IStorageHandler, StorageHandler>();
+        services.AddTransient<IStorageManager, StorageManager>();
+        services.AddSingleton<IStoreService, StoreService>();
         services.AddSingleton<IGitlabSecretsService, GitlabSecretsService>();
         
         services.RegisterInstallationServices();
         services.RegisterGitlabServices();
+        services.RegisterGithubServices();
         services.RegisterApplicationServices();
     }
 

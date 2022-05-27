@@ -7,14 +7,14 @@ namespace VoicemodPowertools.Infrastructure.Gitlab;
 
 public class GitlabHttpClient : RequestClient, IGitlabHttpClient
 {
-    private readonly IStorageHandler _storageHandler;
+    private readonly IGitlabAuthorization _authorization;
     
     public GitlabHttpClient(
-        IStorageHandler storageHandler,
+        IGitlabAuthorization gitlabAuthorization,
         IConfiguration configuration)
     {
-        _storageHandler = storageHandler;
-        _storageHandler.StateHasChanges += StorageHandlerOnStateHasChanges;
+        _authorization = gitlabAuthorization;
+        _authorization.StateHasChanges += StorageHandlerOnStateHasChanges;
 
         LoadToken();
         SetBaseString(configuration.GetValue<string>("GitlabApiBaseUrl"));
@@ -27,12 +27,12 @@ public class GitlabHttpClient : RequestClient, IGitlabHttpClient
 
     protected override void OnDispose()
     {
-        _storageHandler.StateHasChanges -= StorageHandlerOnStateHasChanges;
+        _authorization.StateHasChanges -= StorageHandlerOnStateHasChanges;
     }
 
     private void LoadToken()
     {
-        var storage = _storageHandler.Get<GitlabAuthorization>();
+        var storage = _authorization.GetCurrent();
         if (!storage.IsTokenValid())
             return;
         

@@ -1,17 +1,20 @@
+using System.Text.RegularExpressions;
+using VoicemodPowertools.Domain;
 using VoicemodPowertools.Domain.Storage.Entries;
-using VoicemodPowertools.Infrastructure.Consoles;
+using VoicemodPowertools.Infrastructure;
 using VoicemodPowertools.Services.Application.InternalConsole;
+using VoicemodPowertools.Services.InternalStorage;
 using VoicemodPowertools.Services.Storage;
 
 namespace VoicemodPowertools.Application.InternalConsole;
 
 public class InternalSetVersion : IInternalSetVersion
 {
-    private readonly IStorageHandler _storageHandler;
+    private readonly IStorageManager _storageManager;
 
-    public InternalSetVersion(IStorageHandler storageHandler)
+    public InternalSetVersion(IStorageManager storageManagerManager)
     {
-        _storageHandler = storageHandler;
+        _storageManager = storageManagerManager;
     }
     
     public async Task Execute(string[] args)
@@ -22,9 +25,8 @@ public class InternalSetVersion : IInternalSetVersion
             Environment.Exit(1);
         }
 
-        var version = args.FirstOrDefault();
-        
-        if (string.IsNullOrEmpty(version) || !CheckIfVersionStringIsCorrect(version))
+        var version = args.FirstOrDefault().GetVersion();
+        if (string.IsNullOrEmpty(version))
         {
             Console.WriteLine("Version wrong format");
             Environment.Exit(1);
@@ -37,26 +39,11 @@ public class InternalSetVersion : IInternalSetVersion
         };
         
         Console.WriteLine($"Version set to ${version}");
-        _storageHandler.Save(internalApplication);
+        _storageManager.Write(
+            ProgramConstants.File.App.Zip,
+            ProgramConstants.File.App.ApplicationSecretsFile, 
+            internalApplication);
         
         Environment.Exit(0);
-    }
-
-    private bool CheckIfVersionStringIsCorrect(string input)
-    {
-        string[] split = input.Split('.');
-        if (split.Length != 3)
-            return false;
-
-        if (split[0][0] != 'v')
-            return false;
-
-        if (!int.TryParse(split[1], out var v1))
-            return false;
-
-        if (!int.TryParse(split[2], out var v2))
-            return false;
-
-        return true;
     }
 }

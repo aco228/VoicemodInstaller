@@ -1,4 +1,5 @@
-﻿using VoicemodPowertools.Domain.Gitlab.Jobs;
+﻿using VoicemodPowertools.Application;
+using VoicemodPowertools.Domain.Gitlab.Jobs;
 using VoicemodPowertools.Infrastructure.Gitlab.Authorization;
 using VoicemodPowertools.Infrastructure.Gitlab.Jobs;
 using VoicemodPowertools.Services.Gitlab;
@@ -9,6 +10,8 @@ public static class ServiceExtensions
 {
     public static void RegisterGitlabServices(this IServiceCollection services)
     {
+        services.AddSingleton<IGitlabAuthorization, GitlabAuthorizationProvider>();
+        
         services.AddTransient<IGitlabHttpClient, GitlabHttpClient>();
         services.AddTransient<IGitlabAuthorizationService, GitlabAuthorizationService>();
         services.AddTransient<IGitlabJobService, GitlabJobService>();

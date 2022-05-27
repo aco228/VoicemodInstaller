@@ -24,9 +24,6 @@ public class ConsoleHelp : IConsoleHelp
                 }
             }
             Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
         }
-        Console.WriteLine();
     }
 }

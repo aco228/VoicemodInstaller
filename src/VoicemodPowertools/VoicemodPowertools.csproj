@@ -22,6 +22,9 @@
 
     <ItemGroup>
       <None Remove="Domain\Gitlab\Data_Examples\**" />
+      <None Update="auto-update.cmd">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>

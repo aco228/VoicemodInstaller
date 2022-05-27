@@ -1,16 +1,17 @@
 ﻿using VoicemodPowertools.Domain.Storage.Entries;
+using VoicemodPowertools.Services.InternalStorage;
 using VoicemodPowertools.Services.Storage;
 
 namespace VoicemodPowertools.Domain.Storage;
 
 public class GitlabSecretsService : IGitlabSecretsService
-{   
-    private readonly IStorageHandler _storageHandler;
+{
+    private IStorageManager _fileManager;
     private GitlabSecrets _secrets = null;
     
-    public GitlabSecretsService(IStorageHandler storageHandler)
+    public GitlabSecretsService(IStorageManager fileManager)
     {
-        _storageHandler = storageHandler;
+        _fileManager = fileManager;
     }
 
     public GitlabSecrets Get()
@@ -18,14 +19,19 @@ public class GitlabSecretsService : IGitlabSecretsService
         if (_secrets != null)
             return _secrets;
 
-        _secrets = _storageHandler.Get<GitlabSecrets>();
+        _secrets = _fileManager.Read<GitlabSecrets>(
+            ProgramConstants.File.App.Zip,
+            ProgramConstants.File.App.GitlabSecretsFile);
+        
         return _secrets;
     }
 
     public void Save(GitlabSecrets secrets)
     {
         _secrets = secrets;
-        _storageHandler.Save(secrets);
+        _fileManager.Write(
+            ProgramConstants.File.App.Zip,
+            ProgramConstants.File.App.GitlabSecretsFile, secrets);
     }
     
     

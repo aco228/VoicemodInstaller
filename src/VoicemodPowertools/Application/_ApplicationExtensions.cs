@@ -1,5 +1,6 @@
 ﻿using VoicemodPowertools.Application.ApplicationConsole;
 using VoicemodPowertools.Application.DownloadConsole;
+using VoicemodPowertools.Application.Github;
 using VoicemodPowertools.Application.GitlabConsole;
 using VoicemodPowertools.Application.InstallationConsole;
 using VoicemodPowertools.Application.InternalConsole;
@@ -21,7 +22,7 @@ public static class ApplicationExtensions
     {
         services.AddTransient<IGitlabLogin, GitlabLogin>();
         services.AddTransient<IGitlabRefreshToken, GitlabRefreshToken>();
-        services.AddTransient<IGitlabAuthorization, GitlabAuthorizationProvider>();
+        services.AddTransient<ICheckForNewRelease, CheckForNewRelease>();
 
         services.AddTransient<IConsoleHelp, ConsoleHelp>();
         services.AddTransient<ICloseApplication, CloseApplication>();

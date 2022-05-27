@@ -1,10 +1,10 @@
 ﻿using ConsoleImplementation;
 using Humanizer;
-using VoicemodPowertools.Application.InternalConsole;
 using VoicemodPowertools.Domain;
 using VoicemodPowertools.Domain.Storage.Entries;
 using VoicemodPowertools.Services.Application;
 using VoicemodPowertools.Services.Gitlab;
+using VoicemodPowertools.Services.InternalStorage;
 using VoicemodPowertools.Services.Storage;
 
 namespace VoicemodPowertools.Infrastructure.Consoles;
@@ -16,7 +16,6 @@ public partial class ConsoleManager : ConsoleManagerBase
     
     private readonly string[] _args;
     private readonly IServiceProvider _serviceProvider;
-    
 
     public ConsoleManager(
         string[] args, 
@@ -32,15 +31,30 @@ public partial class ConsoleManager : ConsoleManagerBase
         Console.Title = "Voicemod | Powertools";
         Console.WriteLine("Voicemod | Powertools");
         
+        var storageService = _serviceProvider.GetService<IStoreService>();
+        var fileManager = _serviceProvider.GetService<IStorageManager>();
+        var storageData = storageService.GetCurrent();
+        // storageData.Print();
         
-        var storageHandler = _serviceProvider.GetService<IStorageHandler>();
-        var storageData = storageHandler.GetCurrent();
-
-        var gitlabSecrets = storageHandler.Get<GitlabSecrets>();
+        var gitlabSecrets = fileManager.Read<GitlabSecrets>(
+            ProgramConstants.File.App.Zip,
+            ProgramConstants.File.App.GitlabSecretsFile);
+        
         if (!gitlabSecrets.IsValid() && !_args.GetValue(ProgramConstants.IgnoreAttribute, false))
         {
             Console.WriteLine("Program corrupted!");
             Environment.Exit(1);            
+        }
+
+        var versionStorage = fileManager.Read<InternalApplicationData>(
+            ProgramConstants.File.App.Zip,
+            ProgramConstants.File.App.ApplicationSecretsFile);
+        
+        if (versionStorage != null)
+        {
+            Console.Write($"Version {versionStorage.Version}");
+            Console.Write($" (Built {versionStorage.BuiltAt.Humanize()})");
+            Console.WriteLine();
         }
         
         var gitlabAuth = storageData.Get<GitlabAuthorization>();
@@ -49,7 +63,7 @@ public partial class ConsoleManager : ConsoleManagerBase
             var refreshToken = _serviceProvider.GetService<IGitlabRefreshToken>();
             await refreshToken.RefreshToken();
             
-            Console.WriteLine($"Authenticated as {gitlabAuth.Username}");
+            Console.WriteLine($"\tAuthenticated as {gitlabAuth.Username}");
             Console.WriteLine();
         }
 
@@ -82,7 +96,6 @@ public partial class ConsoleManager : ConsoleManagerBase
         }
 
         await service.Execute(args);
-        Console.WriteLine();
     }
 
 }

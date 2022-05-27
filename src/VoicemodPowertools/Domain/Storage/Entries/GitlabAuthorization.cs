@@ -13,6 +13,13 @@ public class GitlabAuthorization : StorageEntryBase
         RefreshToken = string.Empty;
         Username = string.Empty;
     }
+
+    public void Print()
+    {
+        Console.WriteLine($"{"Token", 15} : {Token}");
+        Console.WriteLine($"{"Username", 15} : {Username}");
+        Console.WriteLine($"{"RefreshToken", 15} : {RefreshToken}");
+    }
 }
 
 public static class GitlabAuthorizationExtensions

@@ -52,9 +52,10 @@ public class DownloadVersion : IDownloadVersion
                 OpenFolderOnDownload = args.GetValue("open", false),
             });
         }
-        catch
+        catch(Exception ex)
         {
             Console.WriteLine("Error getting/downloading latest desktop version");
+            ConsoleDebug.WriteLine(ex.ToString());
         }
         
     }

@@ -1,18 +1,21 @@
+using System.Text.RegularExpressions;
 using VoicemodPowertools.Domain;
 using VoicemodPowertools.Domain.Storage.Entries;
+using VoicemodPowertools.Infrastructure;
 using VoicemodPowertools.Infrastructure.Consoles;
 using VoicemodPowertools.Services.Application.InternalConsole;
+using VoicemodPowertools.Services.InternalStorage;
 using VoicemodPowertools.Services.Storage;
 
 namespace VoicemodPowertools.Application.InternalConsole;
 
 public class InternalSetSecrets : IInternalSetSecrets
 {
-    private readonly IStorageHandler _storageHandler;
+    private readonly IStorageManager _fileManager;
 
-    public InternalSetSecrets(IStorageHandler storageHandler)
+    public InternalSetSecrets(IStorageManager storageManager)
     {
-        _storageHandler = storageHandler;
+        _fileManager = storageManager;
     }
     
     public async Task Execute(string[] args)
@@ -31,8 +34,8 @@ public class InternalSetSecrets : IInternalSetSecrets
                 Console.WriteLine("No secrets offered");
                 Environment.Exit(1);
             }
-            
-            var version = args.GetValue("version", string.Empty);
+
+            var version = args.GetValue("version", string.Empty).GetVersion();
             if (string.IsNullOrEmpty(version))
             {
                 Console.WriteLine("No version offered");
@@ -40,7 +43,10 @@ public class InternalSetSecrets : IInternalSetSecrets
             }
 
             gitlabSecrets.Print();
-            _storageHandler.Save(gitlabSecrets);
+            _fileManager.Write(
+                ProgramConstants.File.App.Zip,
+                ProgramConstants.File.App.GitlabSecretsFile, 
+                gitlabSecrets);
 
             var internalApplication = new InternalApplicationData
             {
@@ -49,11 +55,14 @@ public class InternalSetSecrets : IInternalSetSecrets
             };
             
             Console.WriteLine($"Version set to ${version}");
-            _storageHandler.Save(internalApplication);
+            _fileManager.Write(
+                ProgramConstants.File.App.Zip,
+                ProgramConstants.File.App.ApplicationSecretsFile, 
+                internalApplication);
             
             Thread.Sleep(3500);
 
-            var file = new FileInfo(ProgramConstants.SecretsFile);
+            var file = new FileInfo(ProgramConstants.File.App.Zip);
             if (file.Exists)
             {
                 Console.WriteLine($"FILE EXISTS {file.FullName}");
@@ -66,4 +75,5 @@ public class InternalSetSecrets : IInternalSetSecrets
             Console.WriteLine($"Exception {ex}");
         }
     }
+
 }

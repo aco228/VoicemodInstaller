@@ -27,12 +27,14 @@ public abstract class ConsoleManagerBase
             
             if (string.IsNullOrEmpty(commandLine)) continue;
             await ProcessCommand(commandLine.Trim().Split(' '));
+        
+            Console.WriteLine();
         }
     }
 
     protected async Task ProcessCommand(string[] args)
     {
-        if(args.Length == 0) return;
+        if (args.Length == 0) return;
         
         var split = args.ToList();
         var command = GetCommand(split[0]);
@@ -44,7 +46,7 @@ public abstract class ConsoleManagerBase
             
         split.RemoveAt(0);
         await OnCommand(command, split.ToArray());
-        
+
         Console.WriteLine();
     }
 
