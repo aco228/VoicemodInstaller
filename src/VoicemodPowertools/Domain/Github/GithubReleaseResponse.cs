@@ -1,0 +1,21 @@
+using Newtonsoft.Json;
+
+namespace VoicemodPowertools.Domain.Github;
+
+public record GithubReleaseResponse
+{
+    [JsonProperty("tag_name")]
+    public string Version { get; set; }
+    
+    [JsonProperty("created_at")]
+    public DateTime CreatedAt { get; set; }
+    
+    [JsonProperty("assets")]
+    public List<GithubReleaseAssetResponse> Assets { get; set; }
+}
+
+public record GithubReleaseAssetResponse
+{
+    [JsonProperty("url")]
+    public string Url { get; set; }
+}

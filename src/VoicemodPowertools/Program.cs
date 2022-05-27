@@ -1,9 +1,11 @@
 using VoicemodPowertools.Application;
+using VoicemodPowertools.Application.Github;
 using VoicemodPowertools.Domain;
 using VoicemodPowertools.Domain.Installation;
 using VoicemodPowertools.Domain.Storage;
 using VoicemodPowertools.Domain.Storage.Entries;
 using VoicemodPowertools.Infrastructure.Consoles;
+using VoicemodPowertools.Infrastructure.Github;
 using VoicemodPowertools.Infrastructure.Gitlab;
 using VoicemodPowertools.Infrastructure.Http;
 using VoicemodPowertools.Infrastructure.Storage;
@@ -28,11 +30,14 @@ static class Program
 
         RegisterSecrets(app.Environment.IsDevelopment(), app.Services);
 
-        _isDebug = args.GetValue("debug", false);
+        _isDebug = args.GetValue("debug", true);
         
         if (!args.GetValue(ProgramConstants.IgnoreAttribute, false))
+        {
             new Thread(() => InitializeServer(app)).Start();
-        
+            new Thread( () =>  app.Services.GetService<ICheckForNewRelease>().Run()).Start();
+        }
+
         Thread.Sleep(150);
         var consoleManager = new ConsoleManager(args, app.Services);
         consoleManager.Run();
@@ -40,6 +45,7 @@ static class Program
     
     private static void RegisterServices(IServiceCollection services)
     {
+        services.AddTransient<IDownloadClient, DownloadClient>();
         services.AddTransient<IZipStorage, ZipStorage>();
         services.AddTransient<ICryptionService, CryptionService>();
         services.AddTransient<IRequestClient, RequestClient>();
@@ -49,6 +55,7 @@ static class Program
         
         services.RegisterInstallationServices();
         services.RegisterGitlabServices();
+        services.RegisterGithubServices();
         services.RegisterApplicationServices();
     }
 
