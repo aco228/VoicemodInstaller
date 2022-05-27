@@ -54,8 +54,7 @@ public class DownloadClient : IDownloadClient
 
                 if (unzip)
                 {
-                    directoryWhereFileIsDownloaded = Path.Combine(file.Directory.FullName, downloadPath);
-                    ZipFile.ExtractToDirectory(file.FullName, directoryWhereFileIsDownloaded);
+                    ZipFile.ExtractToDirectory(file.FullName, Path.Combine(directoryWhereFileIsDownloaded, fileName));
                     File.Delete(downloadPath);
                     Console.WriteLine("File is unzipped");
                 }
@@ -94,8 +93,8 @@ public class DownloadClient : IDownloadClient
             File.Delete(downloadPath);
         
         var directoryInfo = new DirectoryInfo(downloadPath);
-        if (Directory.Exists(Path.Combine(directoryInfo.FullName, downloadPath)))
-            Directory.Delete(Path.Combine(directoryInfo.FullName, downloadPath), true);
+        if (Directory.Exists(directoryInfo.FullName))
+            Directory.Delete(directoryInfo.FullName, true);
     }
 
     private Tuple<string, string> GetFilenameInformations(string fileName)
