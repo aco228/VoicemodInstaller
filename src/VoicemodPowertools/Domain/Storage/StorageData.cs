@@ -1,4 +1,5 @@
-﻿using VoicemodPowertools.Services.Storage;
+﻿using VoicemodPowertools.Services.InternalStorage;
+using VoicemodPowertools.Services.Storage;
 
 namespace VoicemodPowertools.Domain.Storage;
 

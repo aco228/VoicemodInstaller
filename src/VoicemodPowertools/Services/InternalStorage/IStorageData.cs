@@ -1,6 +1,6 @@
 ﻿using VoicemodPowertools.Domain.Storage;
 
-namespace VoicemodPowertools.Services.Storage;
+namespace VoicemodPowertools.Services.InternalStorage;
 
 public interface IStorageData
 {

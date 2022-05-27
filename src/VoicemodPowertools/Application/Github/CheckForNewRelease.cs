@@ -2,6 +2,7 @@ using VoicemodPowertools.Domain;
 using VoicemodPowertools.Domain.Storage.Entries;
 using VoicemodPowertools.Infrastructure;
 using VoicemodPowertools.Services.Github;
+using VoicemodPowertools.Services.InternalStorage;
 using VoicemodPowertools.Services.Storage;
 
 namespace VoicemodPowertools.Application.Github;
@@ -14,14 +15,14 @@ public interface ICheckForNewRelease
 public class CheckForNewRelease : ICheckForNewRelease
 {
     private readonly IGithubReleaseService _githubReleaseService;
-    private readonly IStorageFileManager _storageFileManager;
+    private readonly IStorageManager _storageManager;
     
     public CheckForNewRelease(
         IGithubReleaseService githubReleaseService,
-        IStorageFileManager storageFileManager)
+        IStorageManager storageManager)
     {
         _githubReleaseService = githubReleaseService;
-        _storageFileManager = storageFileManager;
+        _storageManager = storageManager;
     }
     
     public async Task Run()
@@ -31,9 +32,9 @@ public class CheckForNewRelease : ICheckForNewRelease
             var latestRelease = await _githubReleaseService.GetLatestRelease();
             Console.WriteLine("Latest release: " + latestRelease.Version);
             
-            var versionStorage = _storageFileManager.Read<InternalApplicationData>(
-                ProgramConstants.FileLocations.Zip.Application,
-                ProgramConstants.FileLocations.ApplicationSecretsFile);
+            var versionStorage = _storageManager.Read<InternalApplicationData>(
+                ProgramConstants.File.App.Zip,
+                ProgramConstants.File.App.ApplicationSecretsFile);
 
             var weightLatestVersion = GetVersionWeight(latestRelease.Version);
             var weightCurrentVersion = GetVersionWeight(versionStorage.Version);

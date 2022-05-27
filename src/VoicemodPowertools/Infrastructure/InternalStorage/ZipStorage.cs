@@ -1,7 +1,8 @@
 using System.IO.Compression;
-using VoicemodPowertools.Services.Storage;
+using System.Runtime.Serialization.Formatters.Binary;
+using VoicemodPowertools.Services.InternalStorage;
 
-namespace VoicemodPowertools.Infrastructure.Storage;
+namespace VoicemodPowertools.Infrastructure.InternalStorage;
 
 public class ZipStorage : IZipStorage
 {
@@ -46,5 +47,27 @@ public class ZipStorage : IZipStorage
         
         using var entryStream = entry.Open();
         entryStream.Write(data, 0, data.Length);
+    }
+
+    public T ReadFromBinaryFile<T>(string zipFile, string filePath) where T : class
+    {
+        var bytes = Read(zipFile, filePath);
+        if (bytes == null || bytes.Length == 0)
+        {
+            ConsoleDebug.WriteLine($"zip bytes is null for {filePath}");
+            return default;
+        }
+
+        try
+        {
+            using var stream = new MemoryStream(bytes);
+            stream.Seek(0, SeekOrigin.Begin);
+            var binaryFormatter = new BinaryFormatter();
+            return (T)binaryFormatter.Deserialize(stream);
+        }
+        catch(Exception e)
+        {
+            throw e;
+        }
     }
 }

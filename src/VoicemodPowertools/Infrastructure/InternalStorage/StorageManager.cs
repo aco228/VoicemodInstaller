@@ -2,21 +2,21 @@ using System.Runtime.Serialization.Formatters.Binary;
 using VoicemodPowertools.Domain;
 using VoicemodPowertools.Domain.Storage;
 using VoicemodPowertools.Infrastructure.Helpers;
-using VoicemodPowertools.Services.Storage;
+using VoicemodPowertools.Services.InternalStorage;
 
 namespace VoicemodPowertools.Infrastructure.Storage;
 
-public class StorageFileManager : IStorageFileManager
+public class StorageManager : IStorageManager
 {
     private readonly ICryptionService _cryptionService;
-    private readonly IZipStorage _zip;
+    private readonly IZipStorage _zipStorage;
     
-    public StorageFileManager(
+    public StorageManager(
         ICryptionService cryptionService,
-        IZipStorage zipStorage)
+        IZipStorage zipStorageStorage)
     {
         _cryptionService = cryptionService;
-        _zip = zipStorage;
+        _zipStorage = zipStorageStorage;
     }
     
     public void Write<T>(string zipFile, string filePath, T obj) where T : class
@@ -37,12 +37,11 @@ public class StorageFileManager : IStorageFileManager
             FileContent = content
         };
         
-        // using Stream fileOpenStream = File.Open(filePath, FileMode.Create);
         using var memoryStream = new MemoryStream();
         var binaryFormatter = new BinaryFormatter();
         binaryFormatter.Serialize(memoryStream, encFile);
         
-        _zip.Write(zipFile, filePath, memoryStream.ToArray());
+        _zipStorage.Write(zipFile, filePath, memoryStream.ToArray());
     }
 
     public T? Read<T>(string zipFile, string filePath) where T : class
@@ -52,7 +51,7 @@ public class StorageFileManager : IStorageFileManager
             if (!File.Exists(zipFile))
                 return null;
             
-            var encFile = ReadFromBinaryFile<WriteFileModel>(zipFile, filePath);
+            var encFile = _zipStorage.ReadFromBinaryFile<WriteFileModel>(zipFile, filePath);
             if (encFile == null)
             {
                 ConsoleDebug.WriteLine("encFile is null");
@@ -93,27 +92,4 @@ public class StorageFileManager : IStorageFileManager
         var obj = bf.Deserialize(ms);
         return (T)obj;
     }
-    
-    private T ReadFromBinaryFile<T>(string zipFile, string filePath)
-    {   
-        var bytes = _zip.Read(zipFile, filePath);
-        if (bytes == null || bytes.Length == 0)
-        {
-            ConsoleDebug.WriteLine($"zip bytes is null for {filePath}");
-            return default;
-        }
-
-        try
-        {
-            using var stream = new MemoryStream(bytes);
-            stream.Seek(0, SeekOrigin.Begin);
-            var binaryFormatter = new BinaryFormatter();
-            return (T)binaryFormatter.Deserialize(stream);
-        }
-        catch(Exception e)
-        {
-            throw e;
-        }
-    }
-    
 }

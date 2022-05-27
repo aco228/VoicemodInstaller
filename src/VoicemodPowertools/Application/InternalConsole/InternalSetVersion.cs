@@ -3,17 +3,18 @@ using VoicemodPowertools.Domain;
 using VoicemodPowertools.Domain.Storage.Entries;
 using VoicemodPowertools.Infrastructure;
 using VoicemodPowertools.Services.Application.InternalConsole;
+using VoicemodPowertools.Services.InternalStorage;
 using VoicemodPowertools.Services.Storage;
 
 namespace VoicemodPowertools.Application.InternalConsole;
 
 public class InternalSetVersion : IInternalSetVersion
 {
-    private readonly IStorageFileManager _storageFile;
+    private readonly IStorageManager _storageManager;
 
-    public InternalSetVersion(IStorageFileManager storageFileManager)
+    public InternalSetVersion(IStorageManager storageManagerManager)
     {
-        _storageFile = storageFileManager;
+        _storageManager = storageManagerManager;
     }
     
     public async Task Execute(string[] args)
@@ -38,9 +39,9 @@ public class InternalSetVersion : IInternalSetVersion
         };
         
         Console.WriteLine($"Version set to ${version}");
-        _storageFile.Write(
-            ProgramConstants.FileLocations.Zip.Application,
-            ProgramConstants.FileLocations.ApplicationSecretsFile, 
+        _storageManager.Write(
+            ProgramConstants.File.App.Zip,
+            ProgramConstants.File.App.ApplicationSecretsFile, 
             internalApplication);
         
         Environment.Exit(0);

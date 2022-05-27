@@ -2,7 +2,7 @@ using VoicemodPowertools.Domain.Storage;
 
 namespace VoicemodPowertools.Services.Storage;
 
-public interface IGeneralStorageService
+public interface IStoreService
 {
     IGeneralStorageData GetCurrent();
     T? Get<T>();

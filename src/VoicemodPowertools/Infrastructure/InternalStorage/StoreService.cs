@@ -1,18 +1,19 @@
 using VoicemodPowertools.Domain;
 using VoicemodPowertools.Domain.Storage;
+using VoicemodPowertools.Services.InternalStorage;
 using VoicemodPowertools.Services.Storage;
 
 namespace VoicemodPowertools.Infrastructure.Storage;
 
-public class GeneralStorageService : IGeneralStorageService
+public class StoreService : IStoreService
 {
-    private readonly IStorageFileManager _fileManager;
+    private readonly IStorageManager _storageManager;
     private IGeneralStorageData _data = null;
     
-    public GeneralStorageService(
-        IStorageFileManager fileManager)
+    public StoreService(
+        IStorageManager storageManager)
     {
-        _fileManager = fileManager;
+        _storageManager = storageManager;
     }
 
     public IGeneralStorageData GetCurrent()
@@ -20,9 +21,9 @@ public class GeneralStorageService : IGeneralStorageService
         if (_data != null)
             return _data;
 
-        _data = _fileManager.Read<GeneralStorageData>(
-                    ProgramConstants.FileLocations.Zip.General,
-                    ProgramConstants.FileLocations.GeneralStorageFile) 
+        _data = _storageManager.Read<GeneralStorageData>(
+                    ProgramConstants.File.General.Zip,
+                    ProgramConstants.File.General.GeneralStorageFile) 
                 ?? new GeneralStorageData();
         return _data;
     }
@@ -37,9 +38,9 @@ public class GeneralStorageService : IGeneralStorageService
     {
         var storage = GetCurrent();
         storage.Add<T>(enty);
-        _fileManager.Write(
-            ProgramConstants.FileLocations.Zip.General,
-            ProgramConstants.FileLocations.GeneralStorageFile, storage);
+        _storageManager.Write(
+            ProgramConstants.File.General.Zip,
+            ProgramConstants.File.General.GeneralStorageFile, storage);
     }
     
 }

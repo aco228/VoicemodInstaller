@@ -6,16 +6,19 @@ public static class ProgramConstants
     public static string IgnoreAttribute = "ignore-sec";
     public static string PublicKey = "SKkWtfPUb3aq3Sej";
 
-    public static class FileLocations
+    public static class File
     {
-        public static class Zip
+        public static class App
         {
-            public static string General = "general.rg";
-            public static string Application = "app.rg";
+            public static string Zip = "app.rg";
+            public static string GitlabSecretsFile = "state-gl.rg";
+            public static string ApplicationSecretsFile = "state-app.rg";
         }
         
-        public static string GeneralStorageFile = "state-gs.rg";
-        public static string GitlabSecretsFile = "state-gl.rg";
-        public static string ApplicationSecretsFile = "state-app.rg";
+        public static class General
+        {
+            public static string Zip = "general.rg";
+            public static string GeneralStorageFile = "state-gs.rg";
+        }
     }
 }

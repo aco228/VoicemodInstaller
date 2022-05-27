@@ -1,8 +1,9 @@
 using System.Security.Cryptography;
 using System.Text;
+using VoicemodPowertools.Services.InternalStorage;
 using VoicemodPowertools.Services.Storage;
 
-namespace VoicemodPowertools.Infrastructure.Storage;
+namespace VoicemodPowertools.Infrastructure.InternalStorage;
 
 public class CryptionService : ICryptionService
 {   

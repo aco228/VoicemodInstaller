@@ -8,10 +8,13 @@ using VoicemodPowertools.Infrastructure.Consoles;
 using VoicemodPowertools.Infrastructure.Github;
 using VoicemodPowertools.Infrastructure.Gitlab;
 using VoicemodPowertools.Infrastructure.Http;
+using VoicemodPowertools.Infrastructure.InternalStorage;
 using VoicemodPowertools.Infrastructure.Storage;
 using VoicemodPowertools.Services.Http;
+using VoicemodPowertools.Services.InternalStorage;
 using VoicemodPowertools.Services.Storage;
 using ConsoleManager = VoicemodPowertools.Infrastructure.Consoles.ConsoleManager;
+using StorageManager = VoicemodPowertools.Infrastructure.Storage.StorageManager;
 
 namespace VoicemodPowertools;
 
@@ -49,8 +52,8 @@ static class Program
         services.AddTransient<IZipStorage, ZipStorage>();
         services.AddTransient<ICryptionService, CryptionService>();
         services.AddTransient<IRequestClient, RequestClient>();
-        services.AddTransient<IStorageFileManager, StorageFileManager>();
-        services.AddSingleton<IGeneralStorageService, GeneralStorageService>();
+        services.AddTransient<IStorageManager, StorageManager>();
+        services.AddSingleton<IStoreService, StoreService>();
         services.AddSingleton<IGitlabSecretsService, GitlabSecretsService>();
         
         services.RegisterInstallationServices();

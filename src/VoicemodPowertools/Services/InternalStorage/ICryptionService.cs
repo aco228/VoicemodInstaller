@@ -1,4 +1,4 @@
-namespace VoicemodPowertools.Services.Storage;
+namespace VoicemodPowertools.Services.InternalStorage;
 
 public interface ICryptionService
 {
