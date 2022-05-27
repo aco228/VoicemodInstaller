@@ -1,4 +1,5 @@
 ﻿using VoicemodPowertools.Domain.Storage.Entries;
+using VoicemodPowertools.Infrastructure;
 using VoicemodPowertools.Services.Application;
 using VoicemodPowertools.Services.Gitlab;
 using VoicemodPowertools.Services.Storage;
@@ -36,7 +37,8 @@ public class GitlabRefreshToken : IGitlabRefreshToken
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error refreshing token, {ex}");
+            Console.WriteLine($"----> Error refreshing token, you will need to login again to Gitlab");
+            ConsoleDebug.WriteLine(ex.ToString());
         }
     }
 }
