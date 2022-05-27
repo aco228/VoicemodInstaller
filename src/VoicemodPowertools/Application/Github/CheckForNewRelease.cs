@@ -1,9 +1,10 @@
+using System.Diagnostics;
 using VoicemodPowertools.Domain;
 using VoicemodPowertools.Domain.Storage.Entries;
 using VoicemodPowertools.Infrastructure;
 using VoicemodPowertools.Services.Github;
+using VoicemodPowertools.Services.Http;
 using VoicemodPowertools.Services.InternalStorage;
-using VoicemodPowertools.Services.Storage;
 
 namespace VoicemodPowertools.Application.Github;
 
@@ -16,19 +17,32 @@ public class CheckForNewRelease : ICheckForNewRelease
 {
     private readonly IGithubReleaseService _githubReleaseService;
     private readonly IStorageManager _storageManager;
+    private readonly IDownloadClient _downloadClient;
     
     public CheckForNewRelease(
         IGithubReleaseService githubReleaseService,
-        IStorageManager storageManager)
+        IStorageManager storageManager,
+        IDownloadClient downloadClient)
     {
         _githubReleaseService = githubReleaseService;
         _storageManager = storageManager;
+        _downloadClient = downloadClient;
     }
     
     public async Task Run()
     {
         try
         {
+            if(Program.OnDebug)
+                return;
+            
+            var autoupdateFile = new FileInfo(ProgramConstants.NameOfAutoInstallBat);
+            if (!autoupdateFile.Exists)
+            {
+                Console.WriteLine("ERROR!!! = Missing bat file for auto update");
+                return;
+            }
+            
             var latestRelease = await _githubReleaseService.GetLatestRelease();
             Console.WriteLine("Latest release: " + latestRelease.Version);
             
@@ -44,10 +58,18 @@ public class CheckForNewRelease : ICheckForNewRelease
                 ConsoleDebug.WriteLine("We have current version, no need to update");
                 return;
             }
-            
-            
-            
-            ConsoleDebug.WriteLine("We have new version");
+
+            await _downloadClient.Download(
+                latestRelease.Assets.FirstOrDefault().Url,
+                $"{ProgramConstants.AutoUpdate.NameOfTheFile}.zip",
+                ProgramConstants.DownloadsFolderName,
+                true,
+                false);
+
+            Process.Start(autoupdateFile.FullName);
+            Console.WriteLine("We have new version");
+            Console.WriteLine("APPLICATION WILL CLOSE AND REOPEN");
+            Environment.Exit(0);
         }
         catch (Exception ex)
         {

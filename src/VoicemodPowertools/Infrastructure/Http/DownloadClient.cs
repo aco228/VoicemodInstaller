@@ -100,7 +100,7 @@ public class DownloadClient : IDownloadClient
     private Tuple<string, string> GetFilenameInformations(string fileName)
     {
         var split = fileName.Split('.');
-        if (split.Length != 2) throw new ArgumentException("File split length is not 2");
+        if (split.Length != 2) throw new ArgumentException("File split length is not 2 (file name must contain extension)");
         return new(split[0], split[1]);
     }
 }

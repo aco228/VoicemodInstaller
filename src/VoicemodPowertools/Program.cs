@@ -33,7 +33,10 @@ static class Program
 
         RegisterSecrets(app.Environment.IsDevelopment(), app.Services);
 
-        _isDebug = args.GetValue("debug", true);
+        _isDebug = args.GetValue("debug", false);
+        #if DEBUG
+        _isDebug = true;
+        #endif
         
         if (!args.GetValue(ProgramConstants.IgnoreAttribute, false))
         {

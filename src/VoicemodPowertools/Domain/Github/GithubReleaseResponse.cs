@@ -16,6 +16,6 @@ public record GithubReleaseResponse
 
 public record GithubReleaseAssetResponse
 {
-    [JsonProperty("url")]
+    [JsonProperty("browser_download_url")]
     public string Url { get; set; }
 }
