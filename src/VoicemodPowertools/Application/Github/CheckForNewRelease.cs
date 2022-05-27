@@ -33,15 +33,19 @@ public class CheckForNewRelease : ICheckForNewRelease
     {
         try
         {
-            if(Program.OnDebug)
+            if (Program.OnDebug)
                 return;
             
             var autoupdateFile = new FileInfo(ProgramConstants.NameOfAutoInstallBat);
+            
             if (!autoupdateFile.Exists)
             {
                 Console.WriteLine("ERROR!!! = Missing bat file for auto update");
                 return;
             }
+
+            var executionFile = $"current_{ProgramConstants.NameOfAutoInstallBat}";
+            File.Copy(autoupdateFile.Name, executionFile);
             
             var latestRelease = await _githubReleaseService.GetLatestRelease();
             Console.WriteLine("Latest release: " + latestRelease.Version);
@@ -66,7 +70,7 @@ public class CheckForNewRelease : ICheckForNewRelease
                 true,
                 false);
 
-            Process.Start(autoupdateFile.FullName);
+            Process.Start(executionFile);
             Console.WriteLine("We have new version");
             Console.WriteLine("APPLICATION WILL CLOSE AND REOPEN");
             Environment.Exit(0);

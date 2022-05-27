@@ -16,5 +16,9 @@ echo to %~dp0
 robocopy "Downloads/_current/" "./" *.* /S /MOVE /is /it
 
 :EXIT
-echo Exiting..
-exit 0
+
+timeout 2
+echo Exiting ombre
+voicemod-pow
+
+exit
