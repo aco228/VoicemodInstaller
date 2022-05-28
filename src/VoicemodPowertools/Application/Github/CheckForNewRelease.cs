@@ -52,7 +52,6 @@ public class CheckForNewRelease : ICheckForNewRelease
             File.Copy(autoupdateFile.Name, executionFile);
             
             var latestRelease = await _githubReleaseService.GetLatestRelease();
-            Console.WriteLine("Latest release: " + latestRelease.Version);
             
             var versionStorage = _storageManager.Read<InternalApplicationData>(
                 ProgramConstants.File.App.Zip,

@@ -1,7 +1,7 @@
 @echo off
 
 echo Updating...
-timeout 3
+timeout 1
 
 if exist ./Downloads/_current/voicemod-pow.exe (
     echo Update exists
@@ -17,8 +17,8 @@ robocopy "Downloads/_current/" "./" *.* /S /MOVE /is /it
 
 :EXIT
 
-timeout 2
-echo Exiting ombre
-voicemod-pow
+timeout 1
+cls
+echo Installation completed.. You can open `voicemod-pow` again
 
 exit
