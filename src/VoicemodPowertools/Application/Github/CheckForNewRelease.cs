@@ -39,7 +39,7 @@ public class CheckForNewRelease : ICheckForNewRelease
                 return;   
             }
             
-            var autoupdateFile = new FileInfo(ProgramConstants.NameOfAutoInstallBat);
+            var autoupdateFile = new FileInfo(ProgramConstants.NameOfAutoInstallBat.GetAbsolutPath());
             
             if (!autoupdateFile.Exists)
             {
