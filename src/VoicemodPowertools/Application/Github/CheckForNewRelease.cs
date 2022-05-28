@@ -48,8 +48,8 @@ public class CheckForNewRelease : ICheckForNewRelease
             }
 
             var executionFile = $"current_{ProgramConstants.NameOfAutoInstallBat}";
-            File.Delete(executionFile);
-            File.Copy(autoupdateFile.Name, executionFile);
+            File.Delete(executionFile.GetAbsolutPath());
+            File.Copy(autoupdateFile.Name.GetAbsolutPath(), executionFile.GetAbsolutPath());
             
             var latestRelease = await _githubReleaseService.GetLatestRelease();
             

@@ -1,3 +1,4 @@
+using System.Reflection;
 using VoicemodPowertools.Application;
 using VoicemodPowertools.Application.Github;
 using VoicemodPowertools.Domain;
@@ -21,10 +22,14 @@ namespace VoicemodPowertools;
 static class Program
 {
     private static bool _isDebug = false;
+    private static string _absoluthLocation = string.Empty;
     public static bool OnDebug { get => _isDebug; }
+    public static string Location { get => _absoluthLocation; }
     
     public static void Main(string[] args)
     {
+        _absoluthLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
