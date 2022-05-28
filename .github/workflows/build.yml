@@ -46,8 +46,8 @@ jobs:
       run: |
         src/VoicemodPowertools/bin/release/net6.0/voicemod-pow --set-secrets clientId=${{ secrets.GITLABAPPLICATIONID }} clientSecret=${{ secrets.GITLABAPPLICATIONSECRET }} projectId=${{ secrets.GITLABVOICEMODDESKTOPPID }} --version=${{ github.ref }} --ignore-sec close
         
-    - name: Copy generate .rg file
-      run: move "D:\a\VoicemodInstaller\VoicemodInstaller\app.rg" "D:\a\VoicemodInstaller\VoicemodInstaller\src\VoicemodPowertools\bin\release\net6.0\app.rg" 
+   # - name: Copy generate .rg file
+   #   run: move "D:\a\VoicemodInstaller\VoicemodInstaller\app.rg" "D:\a\VoicemodInstaller\VoicemodInstaller\src\VoicemodPowertools\bin\release\net6.0\app.rg" 
 
     - name: print release version
       run: dir "src/VoicemodPowertools/bin/release/net6.0/"
