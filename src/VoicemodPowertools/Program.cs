@@ -5,6 +5,7 @@ using VoicemodPowertools.Domain;
 using VoicemodPowertools.Domain.Installation;
 using VoicemodPowertools.Domain.Storage;
 using VoicemodPowertools.Domain.Storage.Entries;
+using VoicemodPowertools.Infrastructure;
 using VoicemodPowertools.Infrastructure.Consoles;
 using VoicemodPowertools.Infrastructure.Github;
 using VoicemodPowertools.Infrastructure.Gitlab;
@@ -33,6 +34,7 @@ static class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
+        builder.Configuration.AddJsonFile(Path.Combine(_absoluthLocation, "appsettings.json"));
         RegisterServices(builder.Services);
         var app = builder.Build();
 
@@ -48,6 +50,7 @@ static class Program
         }
 
         Thread.Sleep(150);
+        
         var consoleManager = new ConsoleManager(args, app.Services);
         consoleManager.Run();
     }
