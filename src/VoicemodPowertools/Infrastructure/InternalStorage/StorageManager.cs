@@ -21,6 +21,8 @@ public class StorageManager : IStorageManager
     
     public void Write<T>(string zipFile, string filePath, T obj) where T : class
     {
+        zipFile = zipFile.GetAbsolutPath();
+        
         var formatter = new BinaryFormatter();
         using var stream = new MemoryStream();
         formatter.Serialize(stream, obj);
@@ -48,6 +50,8 @@ public class StorageManager : IStorageManager
     {
         try
         {
+            zipFile = zipFile.GetAbsolutPath();
+            
             if (!File.Exists(zipFile))
                 return null;
             

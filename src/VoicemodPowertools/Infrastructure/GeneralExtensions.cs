@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using VoicemodPowertools.Domain;
 
 namespace VoicemodPowertools.Infrastructure;
 
@@ -15,5 +16,12 @@ public static class GeneralExtensions
         return !match.Success
             ? string.Empty
             : match.Value;
+    }
+
+    public static string GetAbsolutPath(this string path)
+    {
+        if (path.Contains(Program.Location))
+            return path;
+        return Path.Combine(Program.Location, path);
     }
 }

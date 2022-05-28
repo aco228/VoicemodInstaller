@@ -1,8 +1,10 @@
-﻿namespace VoicemodPowertools.Domain;
+﻿using VoicemodPowertools.Infrastructure;
+
+namespace VoicemodPowertools.Domain;
 
 public static class ProgramConstants
 {
-    public static string DownloadsFolderName = "Downloads";
+    public static string DownloadsFolderName = "Downloads".GetAbsolutPath();
     public static string IgnoreAttribute = "ignore-sec";
     public static string DebugAttribute = "debug";
     public static string PublicKey = "SKkWtfPUb3aq3Sej";
