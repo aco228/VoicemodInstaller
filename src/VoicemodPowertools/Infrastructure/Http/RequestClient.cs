@@ -218,6 +218,11 @@ public class RequestClient : IRequestClient, IDisposable
         return String.Join("&", query);
     }
 
+    protected virtual void OnException(RequestException exception)
+    {
+        throw exception;
+    }
+    
     private void EnsureSuccessStatusCode(HttpResponseMessage response, string url, StringContent request)
     {
         try
@@ -226,7 +231,7 @@ public class RequestClient : IRequestClient, IDisposable
         }
         catch (Exception exception)
         {
-            throw new RequestException(exception, url, request, response);
+            OnException(new RequestException(exception, url, request, response));
         }
     }
 }

@@ -4,6 +4,7 @@ public static class ProgramConstants
 {
     public static string DownloadsFolderName = "Downloads";
     public static string IgnoreAttribute = "ignore-sec";
+    public static string DebugAttribute = "debug";
     public static string PublicKey = "SKkWtfPUb3aq3Sej";
     public static string NameOfAutoInstallBat = "auto-update.cmd";
 

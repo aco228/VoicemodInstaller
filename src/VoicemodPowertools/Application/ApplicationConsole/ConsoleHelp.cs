@@ -1,4 +1,5 @@
-﻿using VoicemodPowertools.Services.Application.ApplicationConsole;
+﻿using VoicemodPowertools.Infrastructure;
+using VoicemodPowertools.Services.Application.ApplicationConsole;
 using ConsoleManager = VoicemodPowertools.Infrastructure.Consoles.ConsoleManager;
 
 namespace VoicemodPowertools.Application.ApplicationConsole;
@@ -7,6 +8,9 @@ public class ConsoleHelp : IConsoleHelp
 {
     public async Task Execute(string[] args)
     {
+        if (Program.OnDebug)
+            ConsoleDebug.WriteLine("You are in debug mode");
+        
         foreach (var group in ConsoleManager.Current.Groups)
         {
             if(group.HideFromHelp) continue;
