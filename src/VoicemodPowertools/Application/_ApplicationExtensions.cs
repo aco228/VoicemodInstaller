@@ -25,6 +25,7 @@ public static class ApplicationExtensions
         services.AddTransient<ICheckForNewRelease, CheckForNewRelease>();
 
         services.AddTransient<IConsoleHelp, ConsoleHelp>();
+        services.AddTransient<IClearConsoleApplication, ClearConsoleApplication>();
         services.AddTransient<ICloseApplication, CloseApplication>();
         services.AddTransient<IGitlabRedirectToLogin, GitlabRedirectToLogin>();
         services.AddTransient<IGitlabLogout, GitlabLogout>();

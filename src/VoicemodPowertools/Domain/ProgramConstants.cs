@@ -5,6 +5,7 @@ namespace VoicemodPowertools.Domain;
 public static class ProgramConstants
 {
     public static string DownloadsFolderName = "Downloads".GetAbsolutPath();
+    public static string DownloadsAutoUpdateDirectory = $"Downloads/{AutoUpdate.NameOfTheFile}".GetAbsolutPath();
     public static string IgnoreAttribute = "ignore-sec";
     public static string DebugAttribute = "debug";
     public static string PublicKey = "SKkWtfPUb3aq3Sej";

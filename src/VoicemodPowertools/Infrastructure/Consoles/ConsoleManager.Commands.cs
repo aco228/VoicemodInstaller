@@ -137,8 +137,8 @@ public partial class ConsoleManager : ConsoleManagerBase
                     },
                     new ()
                     {
-                        Command  = "clear", Application = typeof(IClearDownloadFolder),
-                        Description = "Clear downloads folder and all of its contents"
+                        Command  = "clear", Application = typeof(IClearConsoleApplication),
+                        Description = "Clear console"
                     },
                     new ()
                     {
