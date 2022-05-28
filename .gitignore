@@ -294,6 +294,7 @@ __pycache__/
 
 # Ignore console test application
 *.rg
+current_auto-update.cmd
 */VoicemodPowertools/Downloads/*
 *.DS_Store
 */.DS_Store/*
