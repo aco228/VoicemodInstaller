@@ -47,6 +47,10 @@ public class CheckForNewRelease : ICheckForNewRelease
                 return;
             }
 
+            var currentDownloadDirectory = new DirectoryInfo(ProgramConstants.DownloadsAutoUpdateDirectory);
+            if (currentDownloadDirectory.Exists)
+                currentDownloadDirectory.Delete();
+
             var executionFile = $"current_{ProgramConstants.NameOfAutoInstallBat}";
             File.Delete(executionFile.GetAbsolutPath());
             File.Copy(autoupdateFile.Name.GetAbsolutPath(), executionFile.GetAbsolutPath());
