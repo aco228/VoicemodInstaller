@@ -34,7 +34,10 @@ public class CheckForNewRelease : ICheckForNewRelease
         try
         {
             if (Program.OnDebug)
-                return;
+            {
+                ConsoleDebug.WriteLine("Ignoring auto update on debug mode");
+                return;   
+            }
             
             var autoupdateFile = new FileInfo(ProgramConstants.NameOfAutoInstallBat);
             
@@ -45,6 +48,7 @@ public class CheckForNewRelease : ICheckForNewRelease
             }
 
             var executionFile = $"current_{ProgramConstants.NameOfAutoInstallBat}";
+            File.Delete(executionFile);
             File.Copy(autoupdateFile.Name, executionFile);
             
             var latestRelease = await _githubReleaseService.GetLatestRelease();
@@ -77,7 +81,7 @@ public class CheckForNewRelease : ICheckForNewRelease
         }
         catch (Exception ex)
         {
-            ConsoleDebug.WriteLine("Error checking for new version");
+            Console.WriteLine("---> Error checking for new version");
             ConsoleDebug.WriteLine(ex.ToString());
         }
     }
