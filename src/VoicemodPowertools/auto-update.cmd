@@ -14,7 +14,7 @@ echo moving from %~dp0Downloads\_current\
 echo to %~dp0
 
 robocopy "Downloads/_current/" "./" *.* /S /MOVE /is /it
-RMDIR "FOLDERNAME" /S /Q
+RMDIR "Downloads/_current/" /S /Q
 ::xcopy "Downloads/_current/" "./" /k/r/e/i/s/c/h/f/o/x/y
 
 :EXIT
