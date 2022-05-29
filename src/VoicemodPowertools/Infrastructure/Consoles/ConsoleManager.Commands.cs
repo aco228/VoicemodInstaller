@@ -107,6 +107,8 @@ public partial class ConsoleManager : ConsoleManagerBase
                             "Use `--develop` if you want to download last version with develop brant",
                             "                it will be used only if you did not provide specific version",
                             "                with first parameter",
+                            "Use `nonExpired`   if you want to include those versions that are not expired",
+                            "                   (TRUE by default)",
                         },
                     },
                     new()

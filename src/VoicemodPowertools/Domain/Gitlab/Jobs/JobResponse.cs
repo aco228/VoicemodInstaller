@@ -30,6 +30,8 @@ public record JobResponse
     [JsonProperty("finished_at")]
     public DateTime Finished { get; set; }
 
+    public string IsExpired() => ArtifactsFile == null ? "YES" : "NO";
+
     public void Print()
     {
         Console.WriteLine("\tFound version:");

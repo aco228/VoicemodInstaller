@@ -36,6 +36,12 @@ public class DownloadVersion : IDownloadVersion
             else
                 job = await _jobService.GetJobs(projectId, 1, args.GetValue("develop", false)).FirstOrDefault();
 
+            if (job.ArtifactsFile == null)
+            {
+                Console.WriteLine("Artifact is expired!");
+                return;
+            }
+            
             job.Print();
             if (new DirectoryInfo($"Downloads/{job.Id}").Exists
                 || (new FileInfo($"Downloads/{job.Id}.zip")).Exists)

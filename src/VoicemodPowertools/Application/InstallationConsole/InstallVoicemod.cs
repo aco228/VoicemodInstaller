@@ -42,8 +42,14 @@ public class InstallVoicemod : IInstallVoicemod
             if (args.Length >= 1 && long.TryParse(args[0], out var jobId))
                 job = await _jobService.GetProjectJob(projectId, jobId);
             else
-                job = await _jobService.GetJobs(projectId, 1, args.GetValue("develop", false)).FirstOrDefault();
+                job = await _jobService.GetJobs(projectId, 1, args.GetValue("develop", false), true).FirstOrDefault();
 
+            if (job.ArtifactsFile == null)
+            {
+                Console.WriteLine("This version is expired");
+                return;
+            }
+            
             if (job == null)
             {
                 Console.WriteLine("Could not find version :( ");
@@ -84,6 +90,7 @@ public class InstallVoicemod : IInstallVoicemod
         catch (Exception ex)
         {
             Console.WriteLine("There was an error executing");
+            ConsoleDebug.WriteLine(ex.ToString());
         }
     }
 

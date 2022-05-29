@@ -18,7 +18,7 @@ public class GitlabJobService : IGitlabJobService
     public Task<JobResponse> GetProjectJob(long projectId, long jobId)
         => _httpClient.Get<JobResponse>($"projects/{projectId}/jobs/{jobId}");
 
-    public async IAsyncEnumerable<JobResponse> GetJobs(long projectId, int count = 1, bool onlyDevelop = false)
+    public async IAsyncEnumerable<JobResponse> GetJobs(long projectId, int count = 1, bool onlyDevelop = false, bool onlyNonExpired = true)
     {
         var currentPage = 1;
         var found = 0;
@@ -42,6 +42,9 @@ public class GitlabJobService : IGitlabJobService
 
             foreach (var version in qaIntResponse)
             {
+                if (onlyNonExpired && version.ArtifactsFile == null)
+                    continue;
+                
                 yield return version;
                 if(++found >= count) break;
             }
