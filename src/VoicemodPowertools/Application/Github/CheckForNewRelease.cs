@@ -49,7 +49,7 @@ public class CheckForNewRelease : ICheckForNewRelease
 
             var currentDownloadDirectory = new DirectoryInfo(ProgramConstants.DownloadsAutoUpdateDirectory);
             if (currentDownloadDirectory.Exists)
-                currentDownloadDirectory.Delete();
+                currentDownloadDirectory.Delete(true);
 
             var executionFile = $"current_{ProgramConstants.NameOfAutoInstallBat}";
             File.Delete(executionFile.GetAbsolutPath());
@@ -77,7 +77,14 @@ public class CheckForNewRelease : ICheckForNewRelease
                 true,
                 false);
 
-            Process.Start(executionFile);
+            var psi = new ProcessStartInfo
+            {
+                FileName = executionFile,
+                Verb = "runas",
+            };
+            
+            Process.Start(psi);
+            
             Console.WriteLine("We have new version");
             Console.WriteLine("APPLICATION WILL CLOSE AND REOPEN");
             Environment.Exit(0);

@@ -13,12 +13,12 @@ GOTO :EXIT
 echo moving from %~dp0Downloads\_current\
 echo to %~dp0
 
-xcopy "Downloads/_current/" "./" /k/r/e/i/s/c/h/f/o/x/y
+robocopy "Downloads/_current/" "./" *.* /S /MOVE /is /it
+::xcopy "Downloads/_current/" "./" /k/r/e/i/s/c/h/f/o/x/y
 
 :EXIT
 
 timeout 1
-cls
 echo Installation completed.. You can open `voicemod-pow` again
 
 EXIT
