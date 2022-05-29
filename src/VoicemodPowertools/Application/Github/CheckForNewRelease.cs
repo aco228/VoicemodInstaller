@@ -40,21 +40,18 @@ public class CheckForNewRelease : ICheckForNewRelease
             }
             
             var autoupdateFile = new FileInfo(ProgramConstants.NameOfAutoInstallBat.GetAbsolutPath());
-            
             if (!autoupdateFile.Exists)
             {
                 Console.WriteLine("ERROR!!! = Missing bat file for auto update");
                 return;
             }
+            
+            CreateCurrentBatchFile(autoupdateFile);
 
             var currentDownloadDirectory = new DirectoryInfo(ProgramConstants.DownloadsAutoUpdateDirectory);
             if (currentDownloadDirectory.Exists)
                 currentDownloadDirectory.Delete(true);
 
-            var executionFile = $"current_{ProgramConstants.NameOfAutoInstallBat}";
-            File.Delete(executionFile.GetAbsolutPath());
-            File.Copy(autoupdateFile.Name.GetAbsolutPath(), executionFile.GetAbsolutPath());
-            
             var latestRelease = await _githubReleaseService.GetLatestRelease();
             
             var versionStorage = _storageManager.Read<InternalApplicationData>(
@@ -79,10 +76,9 @@ public class CheckForNewRelease : ICheckForNewRelease
 
             var psi = new ProcessStartInfo
             {
-                FileName = executionFile,
+                FileName = ProgramConstants.NameOfCurrentAutoInstallBat.GetAbsolutPath(),
                 Verb = "runas",
             };
-            
             Process.Start(psi);
             
             Console.WriteLine("We have new version");
@@ -94,6 +90,18 @@ public class CheckForNewRelease : ICheckForNewRelease
             Console.WriteLine("---> Error checking for new version");
             ConsoleDebug.WriteLine(ex.ToString());
         }
+    }
+
+    private void CreateCurrentBatchFile(FileInfo autoUpdateBatchFile)
+    {
+        File.Delete(ProgramConstants.NameOfCurrentAutoInstallBat.GetAbsolutPath());
+
+        var content = File.ReadAllText(autoUpdateBatchFile.FullName)
+            .Replace("[DOWNLOAD_FILE_LOCATION]", Path.Combine(ProgramConstants.DownloadsFolderName, ProgramConstants.AutoUpdate.NameOfTheFile, "voicemod-pow.exe"))
+            .Replace("[DOWNLOAD_DIRECTORY]", Path.Combine(ProgramConstants.DownloadsFolderName, ProgramConstants.AutoUpdate.NameOfTheFile))
+            .Replace("[CURRENT_DIRECTORY]", autoUpdateBatchFile.Directory.FullName);
+        
+        File.WriteAllText(ProgramConstants.NameOfCurrentAutoInstallBat.GetAbsolutPath(), content);
     }
 
     private int GetVersionWeight(string version)

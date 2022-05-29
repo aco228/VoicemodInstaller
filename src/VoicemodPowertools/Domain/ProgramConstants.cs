@@ -10,6 +10,7 @@ public static class ProgramConstants
     public static string DebugAttribute = "debug";
     public static string PublicKey = "SKkWtfPUb3aq3Sej";
     public static string NameOfAutoInstallBat = "auto-update.cmd";
+    public static string NameOfCurrentAutoInstallBat = $"current_{NameOfAutoInstallBat}";
 
     public static class File
     {
