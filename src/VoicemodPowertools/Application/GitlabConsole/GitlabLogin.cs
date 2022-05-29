@@ -1,4 +1,5 @@
 ﻿using VoicemodPowertools.Domain.Storage.Entries;
+using VoicemodPowertools.Infrastructure;
 using VoicemodPowertools.Services.Application;
 using VoicemodPowertools.Services.Gitlab;
 using VoicemodPowertools.Services.Storage;
@@ -49,8 +50,9 @@ public class GitlabLogin : IGitlabLogin
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error retrieving token {ex}");
+            Console.WriteLine($"Error retrieving token");
             authorization.EmptyData();
+            ConsoleDebug.WriteLine(ex.ToString());
         }
         finally
         {

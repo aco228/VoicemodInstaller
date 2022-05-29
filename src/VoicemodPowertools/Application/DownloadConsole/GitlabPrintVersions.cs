@@ -1,4 +1,5 @@
 ﻿using Humanizer;
+using VoicemodPowertools.Infrastructure;
 using VoicemodPowertools.Infrastructure.Consoles;
 using VoicemodPowertools.Services.Application.DownloadsConsole;
 using VoicemodPowertools.Services.Gitlab;
@@ -25,19 +26,21 @@ public class GitlabPrintVersions : IGitlabPrintVersions
         if (count > 50) count = 50;
 
         var onlyDevelop = args.GetValue("develop", false);
+        var nonExpired = args.GetValue("nonExpired", true);
         var projectId = _gitlabSecrets.Get().ProjectId;
 
         try
         {
-            Console.WriteLine($"{"JobId", 10} - {"Branch", 60} - {"User", 20} -- Date");
+            Console.WriteLine($"{"JobId", 10} - {"Branch", 60} - {"User", 20} - {"Expired", 5} -- Date");
             Console.WriteLine($"---------------------------------------------------------------------------------------------------------------------");
-            await foreach (var version in _jobService.GetJobs(projectId, count, onlyDevelop))
-                Console.WriteLine($"{version.Id, 10} - {version.Reference, 60} - {version.User.Username, 20} -- {version.Finished.Humanize()}");
+            await foreach (var version in _jobService.GetJobs(projectId, count, onlyDevelop, !nonExpired))
+                Console.WriteLine($"{version.Id, 10} - {version.Reference, 60} - {version.User.Username, 20} - {version.IsExpired(), 5} -- {version.Finished.Humanize()}");
             
         }
         catch (Exception ex)
         {
             Console.WriteLine("Error trying to print versions");
+            ConsoleDebug.WriteLine(ex.ToString());
         }
     }
 }
