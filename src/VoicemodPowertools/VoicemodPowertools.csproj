@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ConsoleImplementation\ConsoleImplementation.csproj" />
+      <ProjectReference Include="..\VoicemodPowertools.Core\VoicemodPowertools.Core.csproj" />
     </ItemGroup>
 
     <ItemGroup>

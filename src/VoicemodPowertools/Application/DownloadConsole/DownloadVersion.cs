@@ -1,9 +1,9 @@
-using VoicemodPowertools.Domain.Gitlab.Jobs;
+using VoicemodPowertools.Core.Domain.Gitlab.Jobs;
+using VoicemodPowertools.Core.Infrastructure;
+using VoicemodPowertools.Core.Services.Gitlab;
 using VoicemodPowertools.Infrastructure;
 using VoicemodPowertools.Infrastructure.Consoles;
 using VoicemodPowertools.Services.Application.DownloadsConsole;
-using VoicemodPowertools.Services.Gitlab;
-using VoicemodPowertools.Services.Storage;
 
 namespace VoicemodPowertools.Application.DownloadConsole;
 

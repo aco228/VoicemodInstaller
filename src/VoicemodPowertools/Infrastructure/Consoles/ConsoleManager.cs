@@ -1,11 +1,10 @@
 ﻿using ConsoleImplementation;
 using Humanizer;
-using VoicemodPowertools.Domain;
-using VoicemodPowertools.Domain.Storage.Entries;
+using VoicemodPowertools.Core.Domain.InternalStorage.Entries;
+using VoicemodPowertools.Core.Infrastructure;
+using VoicemodPowertools.Core.Services.Gitlab;
+using VoicemodPowertools.Core.Services.InternalStorage;
 using VoicemodPowertools.Services.Application;
-using VoicemodPowertools.Services.Gitlab;
-using VoicemodPowertools.Services.InternalStorage;
-using VoicemodPowertools.Services.Storage;
 
 namespace VoicemodPowertools.Infrastructure.Consoles;
 
