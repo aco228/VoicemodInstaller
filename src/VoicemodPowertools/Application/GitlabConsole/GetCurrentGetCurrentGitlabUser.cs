@@ -1,7 +1,6 @@
-﻿using VoicemodPowertools.Domain.Storage.Entries;
+﻿using VoicemodPowertools.Core.Domain.InternalStorage.Entries;
+using VoicemodPowertools.Core.Services.Gitlab;
 using VoicemodPowertools.Services.Application.GitlabConsole;
-using VoicemodPowertools.Services.Gitlab;
-using VoicemodPowertools.Services.Storage;
 
 namespace VoicemodPowertools.Application.GitlabConsole;
 

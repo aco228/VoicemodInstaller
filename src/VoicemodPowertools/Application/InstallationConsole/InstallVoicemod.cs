@@ -1,13 +1,14 @@
 ﻿using System.Diagnostics;
 using System.IO.Compression;
 using Humanizer;
+using VoicemodPowertools.Core.Domain.Gitlab.Jobs;
+using VoicemodPowertools.Core.Infrastructure;
+using VoicemodPowertools.Core.Services.Gitlab;
 using VoicemodPowertools.Domain;
-using VoicemodPowertools.Domain.Gitlab.Jobs;
 using VoicemodPowertools.Infrastructure;
 using VoicemodPowertools.Infrastructure.Consoles;
 using VoicemodPowertools.Services.Application.InstallationConsole;
-using VoicemodPowertools.Services.Gitlab;
-using VoicemodPowertools.Services.Storage;
+using IAsyncEnumerableExtensions = VoicemodPowertools.Core.Infrastructure.IAsyncEnumerableExtensions;
 
 namespace VoicemodPowertools.Application.InstallationConsole;
 
@@ -42,7 +43,7 @@ public class InstallVoicemod : IInstallVoicemod
             if (args.Length >= 1 && long.TryParse(args[0], out var jobId))
                 job = await _jobService.GetProjectJob(projectId, jobId);
             else
-                job = await _jobService.GetJobs(projectId, 1, args.GetValue("develop", false), true).FirstOrDefault();
+                job = await IAsyncEnumerableExtensions.FirstOrDefault(_jobService.GetJobs(projectId, 1, args.GetValue("develop", false), true));
 
             if (job.ArtifactsFile == null)
             {

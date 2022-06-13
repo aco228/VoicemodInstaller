@@ -1,22 +1,17 @@
 using System.Reflection;
 using VoicemodPowertools.Application;
-using VoicemodPowertools.Application.Github;
-using VoicemodPowertools.Domain;
+using VoicemodPowertools.Core.Domain.InternalStorage.Entries;
+using VoicemodPowertools.Core.Infrastructure;
+using VoicemodPowertools.Core.Infrastructure.Github;
+using VoicemodPowertools.Core.Infrastructure.Gitlab;
+using VoicemodPowertools.Core.Infrastructure.Http;
+using VoicemodPowertools.Core.Infrastructure.InternalStorage;
+using VoicemodPowertools.Core.Services.Gitlab;
+using VoicemodPowertools.Core.Services.Http;
+using VoicemodPowertools.Core.Services.InternalStorage;
 using VoicemodPowertools.Domain.Installation;
 using VoicemodPowertools.Domain.Storage;
-using VoicemodPowertools.Domain.Storage.Entries;
-using VoicemodPowertools.Infrastructure;
 using VoicemodPowertools.Infrastructure.Consoles;
-using VoicemodPowertools.Infrastructure.Github;
-using VoicemodPowertools.Infrastructure.Gitlab;
-using VoicemodPowertools.Infrastructure.Http;
-using VoicemodPowertools.Infrastructure.InternalStorage;
-using VoicemodPowertools.Infrastructure.Storage;
-using VoicemodPowertools.Services.Http;
-using VoicemodPowertools.Services.InternalStorage;
-using VoicemodPowertools.Services.Storage;
-using ConsoleManager = VoicemodPowertools.Infrastructure.Consoles.ConsoleManager;
-using StorageManager = VoicemodPowertools.Infrastructure.Storage.StorageManager;
 
 namespace VoicemodPowertools;
 
@@ -30,6 +25,7 @@ static class Program
     public static void Main(string[] args)
     {
         _absoluthLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        ProgramConstants.ProgramLocation = Location;
         
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddControllers();
@@ -46,7 +42,7 @@ static class Program
         if (!args.GetValue(ProgramConstants.IgnoreAttribute, false))
         {
             new Thread(() => InitializeServer(app)).Start();
-            new Thread( () =>  app.Services.GetService<ICheckForNewRelease>().Run()).Start();
+            // new Thread( () =>  app.Services.GetService<ICheckForNewRelease>().Run()).Start();
         }
 
         Thread.Sleep(150);

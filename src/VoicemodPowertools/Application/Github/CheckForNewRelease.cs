@@ -1,10 +1,11 @@
 using System.Diagnostics;
+using VoicemodPowertools.Core.Domain.InternalStorage.Entries;
+using VoicemodPowertools.Core.Infrastructure;
+using VoicemodPowertools.Core.Services.Github;
+using VoicemodPowertools.Core.Services.Http;
+using VoicemodPowertools.Core.Services.InternalStorage;
 using VoicemodPowertools.Domain;
-using VoicemodPowertools.Domain.Storage.Entries;
 using VoicemodPowertools.Infrastructure;
-using VoicemodPowertools.Services.Github;
-using VoicemodPowertools.Services.Http;
-using VoicemodPowertools.Services.InternalStorage;
 
 namespace VoicemodPowertools.Application.Github;
 

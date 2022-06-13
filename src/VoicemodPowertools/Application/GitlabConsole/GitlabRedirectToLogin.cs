@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
+using VoicemodPowertools.Core.Services.Gitlab;
 using VoicemodPowertools.Services.Application.GitlabConsole;
-using VoicemodPowertools.Services.Gitlab;
 
 namespace VoicemodPowertools.Application.GitlabConsole;
 

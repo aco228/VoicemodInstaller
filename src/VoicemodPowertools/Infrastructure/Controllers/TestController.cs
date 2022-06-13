@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VoicemodPowertools.Core.Services.Gitlab;
 using VoicemodPowertools.Services.Gitlab;
 
 namespace VoicemodPowertools.Infrastructure.Controllers;

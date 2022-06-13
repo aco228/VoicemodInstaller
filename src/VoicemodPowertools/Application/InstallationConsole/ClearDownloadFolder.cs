@@ -1,4 +1,5 @@
-﻿using VoicemodPowertools.Domain;
+﻿using VoicemodPowertools.Core.Infrastructure;
+using VoicemodPowertools.Domain;
 using VoicemodPowertools.Services.Application;
 
 namespace VoicemodPowertools.Application.InstallationConsole;

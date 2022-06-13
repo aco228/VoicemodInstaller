@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleImplementation", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoicemodPowertools.Tests", "VoicemodPowertools.Tests\VoicemodPowertools.Tests.csproj", "{DF758B32-A831-4179-BFC4-64D03785E591}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoicemodPowertools.Core", "VoicemodPowertools.Core\VoicemodPowertools.Core.csproj", "{138E0C75-42EA-4B28-812C-9176F1A2097D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{DF758B32-A831-4179-BFC4-64D03785E591}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF758B32-A831-4179-BFC4-64D03785E591}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF758B32-A831-4179-BFC4-64D03785E591}.Release|Any CPU.Build.0 = Release|Any CPU
+		{138E0C75-42EA-4B28-812C-9176F1A2097D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{138E0C75-42EA-4B28-812C-9176F1A2097D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{138E0C75-42EA-4B28-812C-9176F1A2097D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{138E0C75-42EA-4B28-812C-9176F1A2097D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
