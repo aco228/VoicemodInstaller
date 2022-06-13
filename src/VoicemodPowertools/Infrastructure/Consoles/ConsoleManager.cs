@@ -34,21 +34,21 @@ public partial class ConsoleManager : ConsoleManagerBase
         var fileManager = _serviceProvider.GetService<IStorageManager>();
         var storageData = storageService.GetCurrent();
         // storageData.Print();
-        
+
         var gitlabSecrets = fileManager.Read<GitlabSecrets>(
             ProgramConstants.File.App.Zip,
             ProgramConstants.File.App.GitlabSecretsFile);
-        
+
         if (!gitlabSecrets.IsValid() && !_args.GetValue(ProgramConstants.IgnoreAttribute, false))
         {
             Console.WriteLine("Program corrupted!");
-            Environment.Exit(1);            
+            Environment.Exit(1);
         }
 
         var versionStorage = fileManager.Read<InternalApplicationData>(
             ProgramConstants.File.App.Zip,
             ProgramConstants.File.App.ApplicationSecretsFile);
-        
+
         if (versionStorage != null)
         {
             Console.Write($"Version {versionStorage.Version}");

@@ -1,6 +1,5 @@
 using System.Reflection;
 using VoicemodPowertools.Application;
-using VoicemodPowertools.Application.Github;
 using VoicemodPowertools.Core.Domain.InternalStorage.Entries;
 using VoicemodPowertools.Core.Infrastructure;
 using VoicemodPowertools.Core.Infrastructure.Github;
@@ -43,7 +42,7 @@ static class Program
         if (!args.GetValue(ProgramConstants.IgnoreAttribute, false))
         {
             new Thread(() => InitializeServer(app)).Start();
-            new Thread( () =>  app.Services.GetService<ICheckForNewRelease>().Run()).Start();
+            // new Thread( () =>  app.Services.GetService<ICheckForNewRelease>().Run()).Start();
         }
 
         Thread.Sleep(150);
